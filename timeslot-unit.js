@@ -48,7 +48,7 @@ class TimeslotUnit extends PolymerElement {
         }
       </style>
       <div class='container'>
-        <p class='time'>[[initialTime]] </p><p class='time' hidden$="[[!bookingId]]" hidden$="[[bookingId=='']]">---[[computedTime]]</p>
+        <p class='time' hidden$="[[bookingId]]" >[[initialTime]] </p><p class='time' hidden$="[[!bookingId]]" hidden$="[[bookingId=='']]"> [[initialTime]] <br hidden$="[[singleLineView]]"> - <br hidden$="[[singleLineView]]">[[computedTime]]</p>
       </div>
     `;
   }
@@ -69,8 +69,9 @@ class TimeslotUnit extends PolymerElement {
       },
       bookingId: {
         type: String,
-        value: '',
-        observer: '_bookingChanged'
+        value: null,
+        observer: '_bookingChanged',
+        reflectToAttribute: true
       }
     };
   }
@@ -114,11 +115,13 @@ class TimeslotUnit extends PolymerElement {
   }
 
   _unitsChanged(newVal,oldVal) {
-      this.style.maxWidth = (50*newVal) + 'px'
+      this.style.maxWidth = (50*newVal) + 'px';
+      this.style.width = (50*newVal) + 'px';
+      this.set('singleLineView', newVal!=1)
   }
 
   _bookingChanged(newVal,oldVal) {
-    console.log(newVal,oldVal)
+    //console.log(newVal,oldVal)
     if(!newVal)
       this.set('units', 1);
   }
