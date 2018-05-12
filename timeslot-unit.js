@@ -26,7 +26,7 @@ class TimeslotUnit extends PolymerElement {
           box-sizing: border-box;
         }
 
-        :host([booking-id]) {
+        :host([booking-id]:not([booking-id=''])) {
           background: var(--unavailable-bg, #c3c2c3);
           color: #fff;
         }
@@ -48,7 +48,7 @@ class TimeslotUnit extends PolymerElement {
         }
       </style>
       <div class='container'>
-        <p class='time'>[[initialTime]] <br hidden$="[[singleLineView]]">-<br hidden$="[[singleLineView]]"> [[computedTime]]</p>
+        <p class='time'>[[initialTime]] </p><p class='time' hidden$="[[!bookingId]]" hidden$="[[bookingId=='']]">---[[computedTime]]</p>
       </div>
     `;
   }
@@ -71,10 +71,6 @@ class TimeslotUnit extends PolymerElement {
         type: String,
         value: '',
         observer: '_bookingChanged'
-      },
-      singleLineView: {
-        type: Boolean,
-        value: false
       }
     };
   }
@@ -118,8 +114,7 @@ class TimeslotUnit extends PolymerElement {
   }
 
   _unitsChanged(newVal,oldVal) {
-      this.style.maxWidth = (50*newVal) + 'px';
-        this.set('singleLineView', newVal>1)
+      this.style.maxWidth = (50*newVal) + 'px'
   }
 
   _bookingChanged(newVal,oldVal) {
