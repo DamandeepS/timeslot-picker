@@ -86,7 +86,7 @@ class TimeslotPicker extends PolymerElement {
       return arr;
     })(this.occupancy)
 
-    var availableSlotStartTime = null, aUnits=-1;
+    var availableSlotStartTime = null, aUnits=0, availableSlotId=null;
     for(let i=0; i<=47; i++) {
 
       let time = this._convert24to12Hours(this._addMinutes(startTime,30 * i));
@@ -95,9 +95,11 @@ class TimeslotPicker extends PolymerElement {
       let unit = document.createElement('timeslot-unit');
       unit.set('initialTime', time);
       unit.setAttribute('slot','units');
-      if(!availableSlotStartTime) {
+      unit.id='slot_'+i;
+      if(!availableSlotStartTime || aUnits == 0) {
         availableSlotStartTime=time;
-        aUnits=-1; //not include self
+        availableSlotId= 'slot_'+i;
+        aUnits=0;
       }
 
         // console.log(time, bookedSlots)
@@ -117,22 +119,35 @@ class TimeslotPicker extends PolymerElement {
             i+=currentBooking.units-1;
           }
           // console.log(unit);
-          this.availableSlots.push({availableSlotStartTime,aUnits})
+          if(aUnits>0) {
+          this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
           availableSlotStartTime=null;
+          }
         } else{
             aUnits++;
         }
 
         unit.addEventListener('book-room', e => {
           console.log(e);
+          // TODO: Add an over as based on available Units
         });
         if((i==47) && availableSlotStartTime)
-          this.availableSlots.push({availableSlotStartTime,aUnits})
+          this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
 
       this.appendChild(unit);
     }
 
-    
+    // Now that we know of available slots, lets assign each of units to slots
+    console.log(this.availableSlots)
+    for(let a of this.get('availableSlots')) {
+      const index = parseInt(a['availableSlotId'].split('slot_')[1]),
+      limit=index+a['aUnits'];
+        // console.log(a, index, index+limit)
+        for(let i = index;i<limit;i++ ) {
+        // console.log(a, "asd") //, parseInt(a['availableSlotId'].split('slot_')[1]), i, a['aUnits'] - i
+        document.querySelector('#slot_' + i).avaliableUnits = limit - i;
+      }
+    }
   }
 
   _convert24to12Hours(time) {

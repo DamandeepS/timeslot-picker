@@ -24,11 +24,13 @@ class TimeslotUnit extends PolymerElement {
           align-self: flex-start;
           border: 2px solid #999;
           box-sizing: border-box;
+          cursor: pointer;
         }
 
         :host([booking-id]:not([booking-id=''])) {
           background: var(--unavailable-bg, #c3c2c3);
           color: #fff;
+          cursor: default;
         }
 
         .container {
@@ -58,7 +60,6 @@ class TimeslotUnit extends PolymerElement {
         type: Number,
         value: '1',
         notify: true,
-        reflectToAttribute: true,
         observer: '_unitsChanged'
       },
       initialTime: {
@@ -71,6 +72,11 @@ class TimeslotUnit extends PolymerElement {
         type: String,
         value: null,
         observer: '_bookingChanged',
+        reflectToAttribute: true
+      },
+      avaliableUnits: {
+        type: Number,
+        value: 0,
         reflectToAttribute: true
       }
     };
