@@ -39,6 +39,24 @@ class TimeslotOverlay extends PolymerElement {
           box-sizing: border-box;
         }
 
+        .time-indicators {
+          height: 50px;
+          position: absolute;
+          text-align: center;
+          line-height: 50px;
+          width: 50px;
+          font-size: 10px;
+        }
+
+        #min-time {
+          left: 0;
+        }
+
+        #max-time {
+          right: 0;
+          z-index: 0;
+        }
+
         #container #range {
           box-sizing: border-box;
           padding: 20px auto;
@@ -65,7 +83,7 @@ class TimeslotOverlay extends PolymerElement {
           border: 0px solid #000101;
         }
 
-      #range:before {
+        #range:before {
           content: '';
           display: block;
           left: 50px;
@@ -73,7 +91,6 @@ class TimeslotOverlay extends PolymerElement {
           top: 24.5px;
           position: absolute;
           bottom: 24.5px;
-          /* width: 250px; */
           background: #666;
         }
 
@@ -88,6 +105,7 @@ class TimeslotOverlay extends PolymerElement {
           -webkit-appearance: none;
           margin-top: 3px;
           position: relative;
+          z-index: 2;
         }
         input[type=range]:focus::-webkit-slider-runnable-track {
           background: #ac51b5;
@@ -95,7 +113,9 @@ class TimeslotOverlay extends PolymerElement {
       </style>
 
       <div id='container'>
-        <input id="range" min='1' step='1' type="range" max="[[_allowedSlots]]" value="1"/>
+        <div class="time-indicators" id="min-time">[[minTime]]</div>
+        <input id="range" min='1' step='1' type="range" max="[[_allowedUnits]]" value="1"/>
+        <div class="time-indicators" id="max-time">[[maxTime]]</div>
       </div>
     `;
   }
@@ -104,8 +124,7 @@ class TimeslotOverlay extends PolymerElement {
 
       availableUnits: {
         type: Number,
-        value: 1,
-        observer: '_availableUnitsChanged'
+        value: 1
       },
       leftOffset: {
         type: Number,
@@ -115,7 +134,21 @@ class TimeslotOverlay extends PolymerElement {
       initialTime: {
         type: String,
         value: null,
-        reflectToAttribute: true
+        reflectToAttribute: true,
+        // observer: 'initialTimeChanged'
+      },
+      minTime: {
+        type: String,
+        computed: '_computeTime(initialTime)'
+      },
+      chosenTime: {
+        type: String,
+        computed: '_computeTime(initialTime, chosenUnits)'
+      },
+      maxTime: {
+        type: String,
+        reflectToAttribute: true,
+        computed: '_computeTime(initialTime, _allowedUnits)'
       },
       chosenUnits: {
         type: Number,
@@ -123,10 +156,10 @@ class TimeslotOverlay extends PolymerElement {
         reflectToAttribute: true,
         notify: true
       },
-      _allowedSlots: {
+      _allowedUnits: {
         type: Number,
         computed: '_computedAllowedUnits(availableUnits)',
-        observer: '_allowedSlotsChanged'
+        observer: '_allowedUnitsChanged'
       },
       value: {
         type: Number,
@@ -136,6 +169,18 @@ class TimeslotOverlay extends PolymerElement {
 
   }
 
+  _convert12to24Hours(time) {
+    var hours = Number(time.match(/^(\d+)/)[1]);
+    var minutes = Number(time.match(/:(\d+)/)[1]);
+    var AMPM = time.match(/\s(.*)$/)[1];
+    if (AMPM == "PM" && hours < 12) hours = hours + 12;
+    if (AMPM == "AM" && hours == 12) hours = hours - 12;
+    var sHours = hours.toString();
+    var sMinutes = minutes.toString();
+    if (hours < 10) sHours = "0" + sHours;
+    if (minutes < 10) sMinutes = "0" + sMinutes;
+    return (sHours + ":" + sMinutes);
+  }
 
   _convert24to12Hours(time) {
     // Check correct time format and split into components
@@ -157,16 +202,11 @@ class TimeslotOverlay extends PolymerElement {
     return D(mins%(24*60)/60 | 0) + ':' + D(mins%60);
   }
 
-  _availableUnitsChanged(newVal, oldVal) {
-  }
-
   _computedAllowedUnits(aUnits) {
-    console.log(aUnits)
     return (aUnits>6)?6:aUnits;
   }
 
-  _allowedSlotsChanged(newVal, oldVal) {
-    console.log(newVal)
+  _allowedUnitsChanged(newVal, oldVal) {
     this.$.container.style.width= ((newVal*51)-1) + 'px';
     this._generateUnitsSlider(newVal);
   }
@@ -203,6 +243,17 @@ class TimeslotOverlay extends PolymerElement {
       this.chosenUnits = this.$.range.value;
     })
   }
+
+  _computeTime(time, units) {
+    if(time) {
+      const minutes = 30*units || 30;
+      return this._convert24to12Hours(this._addMinutes(this._convert12to24Hours(time) , minutes));
+    }
+  }
+  //
+  // initialTimeChanged(a,b) {
+  //   console.log(a,b)
+  // }
 
 }
 

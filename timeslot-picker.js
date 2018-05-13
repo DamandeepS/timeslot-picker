@@ -225,11 +225,10 @@ class TimeslotPicker extends PolymerElement {
     overlayContainer.innerHTML = '';
     const overlay = document.createElement('timeslot-overlay');
     overlay.availableUnits=e.detail.aUnits;
-    overlay.initialTime = e.detail.initialTime;
+    overlay.initialTime = e.detail.time;
     overlay.id = 'overlay';
     overlay.leftOffset = e.detail.leftOffset;
     overlayContainer.appendChild(overlay);
-
     overlay.addEventListener('timeslot-pick-cancelled', e => {
 
       this.set('overlayActive', false);
