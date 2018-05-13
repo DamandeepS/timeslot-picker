@@ -22,13 +22,13 @@ class TimeslotUnit extends PolymerElement {
           background: var(--available-bg, #fff);
           margin: 0 1px 0 0;
           align-self: flex-start;
-          border: 2px solid #999;
+          border: 1px solid #999;
           box-sizing: border-box;
           cursor: pointer;
         }
 
         :host([booking-id]:not([booking-id=''])) {
-          background: var(--unavailable-bg, #c3c2c3);
+          background: var(--unavailable-bg, #666);
           color: #fff;
           cursor: default;
         }

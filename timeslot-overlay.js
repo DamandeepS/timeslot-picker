@@ -31,13 +31,71 @@ class TimeslotOverlay extends PolymerElement {
         #container {
           width: 50px;
           height: 50px;
-          background: #ccc9;
+          background: #ccc;
           position: absolute;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          box-sizing: border-box;
+        }
+
+        #container #range {
+          box-sizing: border-box;
+          padding: 20px auto;
+          height: 50px;
+          width: calc(100% - 10px);
+          -webkit-appearance: none;
+          background: transparent;
+        }
+
+        #range:focus {
+          outline: none;
+        }
+        #range {
+
+        }
+
+        #range::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+          animate: 0.2s;
+          box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+          background: #0000;
+          border: 0px solid #000101;
+        }
+
+      #range:before {
+          content: '';
+          display: block;
+          left: 50px;
+          right: 50px;
+          top: 24.5px;
+          position: absolute;
+          bottom: 24.5px;
+          /* width: 250px; */
+          background: #666;
+        }
+
+        #range::-webkit-slider-thumb {
+          box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+          border: 0px solid #000000;
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+          background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUyIDUyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MiA1MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiM2NjYiIGQ9Ik0yNiwwQzExLjY2NCwwLDAsMTEuNjYzLDAsMjZzMTEuNjY0LDI2LDI2LDI2czI2LTExLjY2MywyNi0yNlM0MC4zMzYsMCwyNiwweiBNMzguNSwyOEgyOHYxMWMwLDEuMTA0LTAuODk2LDItMiwycy0yLTAuODk2LTItMlYyOEgxMy41Yy0xLjEwNCwwLTItMC44OTYtMi0yczAuODk2LTIsMi0ySDI0VjE0YzAtMS4xMDQsMC44OTYtMiwyLTJzMiwwLjg5NiwyLDJ2MTBoMTAuNWMxLjEwNCwwLDIsMC44OTYsMiwyUzM5LjYwNCwyOCwzOC41LDI4eiIvPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==), #ffff;
+          cursor: pointer;
+          -webkit-appearance: none;
+          margin-top: 3px;
+          position: relative;
+        }
+        input[type=range]:focus::-webkit-slider-runnable-track {
+          background: #ac51b5;
         }
       </style>
 
       <div id='container'>
-        // TODO: ADD a range slider
+        <input id="range" min='1' step='1' type="range" max="[[_allowedSlots]]" value="1"/>
       </div>
     `;
   }
@@ -56,16 +114,23 @@ class TimeslotOverlay extends PolymerElement {
       },
       initialTime: {
         type: String,
-        value: null
+        value: null,
+        reflectToAttribute: true
       },
-      currentSlots: {
+      chosenUnits: {
         type: Number,
-        value: 1
+        value: 1,
+        reflectToAttribute: true,
+        notify: true
       },
       _allowedSlots: {
         type: Number,
         computed: '_computedAllowedUnits(availableUnits)',
         observer: '_allowedSlotsChanged'
+      },
+      value: {
+        type: Number,
+        value: 0,
       }
     };
 
@@ -102,11 +167,13 @@ class TimeslotOverlay extends PolymerElement {
 
   _allowedSlotsChanged(newVal, oldVal) {
     console.log(newVal)
-    this.$.container.style.width= (newVal*51-1) + 'px';
+    this.$.container.style.width= ((newVal*51)-1) + 'px';
     this._generateUnitsSlider(newVal);
   }
 
   _generateUnitsSlider(units) {
+    const range = this.$.range;
+    //range.style.width = 52*(units-1) + 'px';
   }
 
   _leftOffsetChanged(newVal,oldVal) {
@@ -116,9 +183,24 @@ class TimeslotOverlay extends PolymerElement {
   constructor() {
     super();
     this.addEventListener('click', e => {
-      this.dispatchEvent('timeslot-pick-cancelled', {
+      this.dispatchEvent(new CustomEvent('timeslot-pick-cancelled', {
         cancelled: 'User'
-      })
+      }))
+    })
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.$.container.addEventListener('click', e=> {
+      e.stopPropagation();
+      e.preventDefault();
+    })
+    this.$.container.addEventListener('touchstart', e=> {
+      e.stopPropagation();
+    }, true)
+
+    this.$.range.addEventListener('input', e=> {
+      this.chosenUnits = this.$.range.value;
     })
   }
 

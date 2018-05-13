@@ -22,6 +22,14 @@ class TimeslotPicker extends PolymerElement {
           position: relative;
         }
 
+        #container {
+          width: calc(100% - 44px);
+          margin-left: 22px;
+          overflow-x: auto;
+          white-space: nowrap;
+          position: relative;
+        }
+
         #units {
           display: flex;
           align-items: flex-start;
@@ -41,12 +49,37 @@ class TimeslotPicker extends PolymerElement {
           bottom: 0;
           top: 0;
         }
+
+        .scroll-btn {
+          height: 50px;
+          width: 20px;
+          top: 0;
+          box-sizing: border-box;
+          line-height: 50px;
+          border: 1px solid #999;
+          position: absolute;
+          text-align: center;
+          cursor: pointer;
+        }
+
+        .scroll-btn.left {
+          left: 0;
+        }
+
+        .scroll-btn.right {
+          right:0
+        }
       </style>
+            <div class="scroll-btn left" on-click='scrollLeft'>&lt;</div>
+      <div id="container">
             <div id="units">
               <slot name="units">
               </slot>
             </div>
-      <div id="overlaycontainer" hidden$='[[!overlayActive]]'>
+      <div id="overlaycontainer" hidden$='[[!overlayActive]]'></div>
+
+        </div>
+                <div class="scroll-btn right" on-click='scrollRight'>&gt;</div>
 
       </div>
     `;
@@ -146,6 +179,7 @@ class TimeslotPicker extends PolymerElement {
         }
 
         unit.addEventListener('timeslot-pick-start', this._addOverlayListener.bind(this));
+
         if((i==47) && availableSlotStartTime)
           this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
 
@@ -195,7 +229,20 @@ class TimeslotPicker extends PolymerElement {
     overlay.id = 'overlay';
     overlay.leftOffset = e.detail.leftOffset;
     overlayContainer.appendChild(overlay);
+
+    overlay.addEventListener('timeslot-pick-cancelled', e => {
+
+      this.set('overlayActive', false);
+    })
   }
+
+  scrollLeft() {
+    this.$.container.scrollBy(-250,0);
+  }
+  scrollRight() {
+    this.$.container.scrollBy(250,0);
+  }
+
 }
 
 customElements.define('timeslot-picker', TimeslotPicker);
