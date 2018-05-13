@@ -1,6 +1,7 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 
 import './timeslot-unit.js';
+import './timeslot-overlay.js';
 /**
  * `timeslot-picker`
  * A polymer element for choosing timeslots. Timeslots can be variable.
@@ -18,6 +19,7 @@ class TimeslotPicker extends PolymerElement {
           width: 100%;
           overflow-x: auto;
           white-space: nowrap;
+          position: relative;
         }
 
         #units {
@@ -30,10 +32,22 @@ class TimeslotPicker extends PolymerElement {
         :host(::-webkit-scrollbar) {
           display: none;
         }
+
+        #overlaycontainer {
+          height: 50px;
+          position: absolute;
+          left: 0;
+          width: 2450px;
+          bottom: 0;
+          top: 0;
+        }
       </style>
-      <div id="units">
-        <slot name="units">
-        </slot>
+            <div id="units">
+              <slot name="units">
+              </slot>
+            </div>
+      <div id="overlaycontainer" hidden$='[[!overlayActive]]'>
+
       </div>
     `;
   }
@@ -66,7 +80,11 @@ class TimeslotPicker extends PolymerElement {
       availableSlots: {
         type: Array,
         value: []
-      }
+      },
+      overlayActive: {
+        type: Boolean,
+        value: false
+      },
     };
 
   }
@@ -127,10 +145,7 @@ class TimeslotPicker extends PolymerElement {
             aUnits++;
         }
 
-        unit.addEventListener('book-room', e => {
-          console.log(e);
-          // TODO: Add an over as based on available Units
-        });
+        unit.addEventListener('timeslot-pick-start', this._addOverlayListener.bind(this));
         if((i==47) && availableSlotStartTime)
           this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
 
@@ -138,14 +153,13 @@ class TimeslotPicker extends PolymerElement {
     }
 
     // Now that we know of available slots, lets assign each of units to slots
-    console.log(this.availableSlots)
     for(let a of this.get('availableSlots')) {
       const index = parseInt(a['availableSlotId'].split('slot_')[1]),
       limit=index+a['aUnits'];
         // console.log(a, index, index+limit)
         for(let i = index;i<limit;i++ ) {
         // console.log(a, "asd") //, parseInt(a['availableSlotId'].split('slot_')[1]), i, a['aUnits'] - i
-        document.querySelector('#slot_' + i).avaliableUnits = limit - i;
+        document.querySelector('#slot_' + i).availableUnits = limit - i;
       }
     }
   }
@@ -168,6 +182,19 @@ class TimeslotPicker extends PolymerElement {
     mins = piece[0]*60 + +piece[1] + +minsToAdd;
 
     return D(mins%(24*60)/60 | 0) + ':' + D(mins%60);
+  }
+
+  _addOverlayListener(e) {
+    console.log(e);
+    this.set('overlayActive', true);
+    const overlayContainer = this.$.overlaycontainer;
+    overlayContainer.innerHTML = '';
+    const overlay = document.createElement('timeslot-overlay');
+    overlay.availableUnits=e.detail.aUnits;
+    overlay.initialTime = e.detail.initialTime;
+    overlay.id = 'overlay';
+    overlay.leftOffset = e.detail.leftOffset;
+    overlayContainer.appendChild(overlay);
   }
 }
 

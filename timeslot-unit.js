@@ -74,7 +74,7 @@ class TimeslotUnit extends PolymerElement {
         observer: '_bookingChanged',
         reflectToAttribute: true
       },
-      avaliableUnits: {
+      availableUnits: {
         type: Number,
         value: 0,
         reflectToAttribute: true
@@ -137,9 +137,11 @@ class TimeslotUnit extends PolymerElement {
 
     this.addEventListener('click', e => {
       if(!this.bookingId)
-        this.dispatchEvent(new CustomEvent('book-room', {
+        this.dispatchEvent(new CustomEvent('timeslot-pick-start', {
           detail: {
-            time: this.initialTime
+            time: this.initialTime,
+            aUnits: this.availableUnits,
+            leftOffset: this.offsetLeft
           }
         }))
     })
