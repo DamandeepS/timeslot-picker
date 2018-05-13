@@ -23,8 +23,8 @@ class TimeslotPicker extends PolymerElement {
         }
 
         #container {
-          width: calc(100% - 44px);
-          margin-left: 22px;
+          width: calc(100% - var(--timeslot-unit-width, 50px) + 4px);
+          margin-left: calc(var(--timeslot-unit-width, 50px) / 2 + 2px);
           overflow-x: auto;
           white-space: nowrap;
           position: relative;
@@ -42,7 +42,7 @@ class TimeslotPicker extends PolymerElement {
         }
 
         #overlaycontainer {
-          height: 50px;
+          height: var(--timeslot-unit-height, 50px);
           position: absolute;
           left: 0;
           width: 2450px;
@@ -51,11 +51,11 @@ class TimeslotPicker extends PolymerElement {
         }
 
         .scroll-btn {
-          height: 50px;
-          width: 20px;
+          height: var(--timeslot-unit-height, 50px);
+          width: calc( var(--timeslot-unit-width, 50px) / 2);
           top: 0;
           box-sizing: border-box;
-          line-height: 50px;
+          line-height: var(--timeslot-unit-height, 50px);
           border: 1px solid #999;
           position: absolute;
           text-align: center;
@@ -118,6 +118,26 @@ class TimeslotPicker extends PolymerElement {
         type: Boolean,
         value: false
       },
+      chosenEndTime: {
+        type: String,
+        value: '',
+        reflectToAttribute: true,
+        notify: true
+      },
+      chosenStartTime: {
+        type: String,
+        value: null,
+        reflectToAttribute: true,
+        notify: true,
+        observer: '_startTimeChanged'
+      },
+      chosenUnits: {
+        type: Number,
+        value: null,
+        reflectToAttribute: true,
+        notify: true
+      },
+
     };
 
   }
@@ -198,6 +218,19 @@ class TimeslotPicker extends PolymerElement {
     }
   }
 
+  _convert12to24Hours(time) {
+    var hours = Number(time.match(/^(\d+)/)[1]);
+    var minutes = Number(time.match(/:(\d+)/)[1]);
+    var AMPM = time.match(/\s(.*)$/)[1];
+    if (AMPM == "PM" && hours < 12) hours = hours + 12;
+    if (AMPM == "AM" && hours == 12) hours = hours - 12;
+    var sHours = hours.toString();
+    var sMinutes = minutes.toString();
+    if (hours < 10) sHours = "0" + sHours;
+    if (minutes < 10) sMinutes = "0" + sMinutes;
+    return (sHours + ":" + sMinutes);
+  }
+
   _convert24to12Hours(time) {
     // Check correct time format and split into components
     time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
@@ -219,7 +252,8 @@ class TimeslotPicker extends PolymerElement {
   }
 
   _addOverlayListener(e) {
-    console.log(e);
+
+    this.set('chosenStartTime', e.detail.time);
     this.set('overlayActive', true);
     const overlayContainer = this.$.overlaycontainer;
     overlayContainer.innerHTML = '';
@@ -230,9 +264,17 @@ class TimeslotPicker extends PolymerElement {
     overlay.leftOffset = e.detail.leftOffset;
     overlayContainer.appendChild(overlay);
     overlay.addEventListener('timeslot-pick-cancelled', e => {
-
       this.set('overlayActive', false);
-    })
+      this.set('chosenUnits', null);
+      this.set('chosenStartTime', null);
+      this.set('chosenEndTime', null);
+    });
+    overlay.addEventListener('chosen-units-changed', e => {
+      this.set('chosenUnits', e.detail.value);
+    });
+    overlay.addEventListener('chosen-time-changed', e => {
+      this.set('chosenEndTime', e.detail.value);
+    });
   }
 
   scrollLeft() {
@@ -242,6 +284,23 @@ class TimeslotPicker extends PolymerElement {
     this.$.container.scrollBy(250,0);
   }
 
+  ready() {
+    super.ready();
+    const unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) || 50,
+    newWidth = 48*(unitWidth+1) + 2; //1 for margin
+    this.$.units.style.width = newWidth + "px";
+    this.$.units.style.minWidth = newWidth + "px";
+    this.$.overlaycontainer.style.width = newWidth + "px";
+  }
+
+  _startTimeChanged(newVal, oldVal) {
+    console.log(newVal)
+    if(newVal && !this.chosenEndTime) {
+      const end = this._convert24to12Hours(this._addMinutes(this._convert12to24Hours(newVal),30))
+      this.chosenEndTime =  end;
+      this.set('chosenUnits', 1);
+    }
+  }
 }
 
 customElements.define('timeslot-picker', TimeslotPicker);

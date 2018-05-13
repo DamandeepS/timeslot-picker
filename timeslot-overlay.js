@@ -18,19 +18,19 @@ class TimeslotOverlay extends PolymerElement {
           overflow-x: auto;
           white-space: nowrap;
           position: relative;
-          height: 50px;
+          height: var(--timeslot-unit-height, 50px);
         }
 
         #units {
           display: flex;
           align-items: flex-start;
           flex-direction: row;
-          min-width: 50px;
+          min-width: var(--timeslot-unit-width, 50px);
         }
 
         #container {
-          width: 50px;
-          height: 50px;
+          width: var(--timeslot-unit-width, 50px);
+          height: var(--timeslot-unit-height, 50px);
           background: #ccc;
           position: absolute;
           display: flex;
@@ -40,11 +40,11 @@ class TimeslotOverlay extends PolymerElement {
         }
 
         .time-indicators {
-          height: 50px;
+          height: var(--timeslot-unit-height, 50px);
           position: absolute;
           text-align: center;
-          line-height: 50px;
-          width: 50px;
+          line-height: var(--timeslot-unit-height, 50px);
+          width: var(--timeslot-unit-width, 50px);
           font-size: 10px;
         }
 
@@ -59,8 +59,8 @@ class TimeslotOverlay extends PolymerElement {
 
         #container #range {
           box-sizing: border-box;
-          padding: 20px auto;
-          height: 50px;
+          padding: 20px auto;;
+          height: var(--timeslot-unit-height, 50px);
           width: calc(100% - 10px);
           -webkit-appearance: none;
           background: transparent;
@@ -86,19 +86,19 @@ class TimeslotOverlay extends PolymerElement {
         #range:before {
           content: '';
           display: block;
-          left: 50px;
-          right: 50px;
-          top: 24.5px;
+          left: var(--timeslot-unit-height, 50px);
+          right:  var(--timeslot-unit-width, 50px);
+          top: calc( (var(--timeslot-unit-height, 50px) / 2) - 0.5px);
           position: absolute;
-          bottom: 24.5px;
+          bottom: calc( (var(--timeslot-unit-height, 50px) / 2) - 0.5px);
           background: #666;
         }
 
         #range::-webkit-slider-thumb {
           box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
           border: 0px solid #000000;
-          height: 40px;
-          width: 40px;
+          height: calc( var(--timeslot-unit-height, 50px) - 10px);
+          width: calc( var(--timeslot-unit-width, 50px) - 10px);
           border-radius: 50%;
           background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUyIDUyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MiA1MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiM2NjYiIGQ9Ik0yNiwwQzExLjY2NCwwLDAsMTEuNjYzLDAsMjZzMTEuNjY0LDI2LDI2LDI2czI2LTExLjY2MywyNi0yNlM0MC4zMzYsMCwyNiwweiBNMzguNSwyOEgyOHYxMWMwLDEuMTA0LTAuODk2LDItMiwycy0yLTAuODk2LTItMlYyOEgxMy41Yy0xLjEwNCwwLTItMC44OTYtMi0yczAuODk2LTIsMi0ySDI0VjE0YzAtMS4xMDQsMC44OTYtMiwyLTJzMiwwLjg5NiwyLDJ2MTBoMTAuNWMxLjEwNCwwLDIsMC44OTYsMiwyUzM5LjYwNCwyOCwzOC41LDI4eiIvPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==), #ffff;
           cursor: pointer;
@@ -143,7 +143,8 @@ class TimeslotOverlay extends PolymerElement {
       },
       chosenTime: {
         type: String,
-        computed: '_computeTime(initialTime, chosenUnits)'
+        computed: '_computeTime(initialTime, chosenUnits)',
+        notify: true
       },
       maxTime: {
         type: String,
@@ -152,8 +153,7 @@ class TimeslotOverlay extends PolymerElement {
       },
       chosenUnits: {
         type: Number,
-        value: 1,
-        reflectToAttribute: true,
+        value: 0,
         notify: true
       },
       _allowedUnits: {
@@ -207,7 +207,8 @@ class TimeslotOverlay extends PolymerElement {
   }
 
   _allowedUnitsChanged(newVal, oldVal) {
-    this.$.container.style.width= ((newVal*51)-1) + 'px';
+    const unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) + 1 || 51;
+    this.$.container.style.width= ((newVal*unitWidth)-1) + 'px';
     this._generateUnitsSlider(newVal);
   }
 

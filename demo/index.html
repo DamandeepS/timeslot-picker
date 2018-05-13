@@ -14,6 +14,10 @@
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
+        timeslot-picker {
+          --timeslot-unit-width: 60px;
+          --timeslot-unit-height: 60px;
+        }
       </style>
     </custom-style>
   </head>
@@ -23,6 +27,8 @@
       <demo-snippet>
         <template>
           <timeslot-picker>
+
+            <!-- timeslots units are being added dynamically, these are not required -->
             <timeslot-unit slot="units" initial-time="3:00 PM" units="3"></timeslot-unit>
             <timeslot-unit slot="units" initial-time="3:30 PM" units="3" booking-id></timeslot-unit>
             <timeslot-unit slot="units" initial-time="4:00 PM" units="3" booking-id='3xxsc'></timeslot-unit>

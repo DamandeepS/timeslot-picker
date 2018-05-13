@@ -15,10 +15,10 @@ class TimeslotUnit extends PolymerElement {
         :host {
           display: flex;
           flex-direction: column;
-          width: 50px;
+          width: var(--timeslot-unit-width, 50px);
           flex: 1 1;
           align-items: center;
-          height: 50px;
+          height: var(--timeslot-unit-height, 50px);
           background: var(--available-bg, #fff);
           margin: 0 1px 0 0;
           align-self: flex-start;
@@ -121,8 +121,9 @@ class TimeslotUnit extends PolymerElement {
   }
 
   _unitsChanged(newVal,oldVal) {
-      this.style.maxWidth = (50*newVal) + 'px';
-      this.style.width = (50*newVal) + 'px';
+    const unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) || 50;
+      this.style.maxWidth = (unitWidth*newVal) + 'px';
+      this.style.width = (unitWidth*newVal) + 'px';
       this.set('singleLineView', newVal!=1)
   }
 
