@@ -19,7 +19,7 @@ class TimeslotUnit extends PolymerElement {
           flex: 1 1;
           align-items: center;
           height: var(--timeslot-unit-height, 50px);
-          background: var(--available-bg, #fff);
+          background: var(--timeslot-available-bg, #fff);
           margin: 0 1px 0 0;
           align-self: flex-start;
           border: 1px solid #999;
@@ -28,7 +28,7 @@ class TimeslotUnit extends PolymerElement {
         }
 
         :host([booking-id]:not([booking-id=''])) {
-          background: var(--unavailable-bg, #666);
+          background: var(--timeslot-unavailable-bg, #666);
           color: #fff;
           cursor: default;
         }
@@ -44,7 +44,7 @@ class TimeslotUnit extends PolymerElement {
         }
 
         .container p.time {
-          font-size: 10px;
+          font-size: var(--timeslot-font-size, 10px);
           word-wrap: break-word;
           word-break: break-all;
         }

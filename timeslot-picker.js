@@ -23,7 +23,7 @@ class TimeslotPicker extends PolymerElement {
         }
 
         #container {
-          width: calc(100% - var(--timeslot-unit-width, 50px) + 4px);
+          width: calc(100% - var(--timeslot-unit-width, 50px) - 4px);
           margin-left: calc(var(--timeslot-unit-width, 50px) / 2 + 2px);
           overflow-x: auto;
           white-space: nowrap;
@@ -59,6 +59,8 @@ class TimeslotPicker extends PolymerElement {
           border: 1px solid #999;
           position: absolute;
           text-align: center;
+          background: var(--timeslot-available-bg, #fff);
+          z-index: 2;
           cursor: pointer;
         }
 
@@ -67,7 +69,7 @@ class TimeslotPicker extends PolymerElement {
         }
 
         .scroll-btn.right {
-          right:0
+          right:0;
         }
       </style>
             <div class="scroll-btn left" on-click='scrollLeft'>&lt;</div>

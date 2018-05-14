@@ -2,6 +2,7 @@
   "name": "timeslot-picker",
   "description": "A polymer element for choosing timeslots. Timeslots can be variable.",
   "main": "timeslot-picker.js",
+  "version": "0.9.3",
   "dependencies": {
     "@polymer/polymer": "^3.0.0"
   },
@@ -9,5 +10,11 @@
     "@polymer/iron-demo-helpers": "^3.0.0-pre.12",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "wct-browser-legacy": "^1.0.0"
+  },
+  "license" : "SEE LICENSE IN 'LICENSE'",
+  "author": "Damandeep Singh <mail@damandeepsingh.com> (https://github.com/DamandeepS)",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/DamandeepS/timeslot-picker.git"
   }
 }

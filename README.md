@@ -1,21 +1,59 @@
 # \<timeslot-picker\>
 
+## NOT YET PRODUCTION READY
 A polymer element for choosing timeslots. Timeslots can be variable.
 
-## Install the Polymer-CLI
+The element can be used to display a slider with timeslots at 30 minutes interval. User can select a slot (Max 6 units).
+An overlay is shown as slider to select slots
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally.
+## Properties
 
-## Viewing Your Element
 
+|Property|type|required|reflected|notify|description|
+|----|---|--|--|--|--|
+|occupency|Array|yes|false|false|Set of slots already booked |
+|chosen-start-time|String|no|true|true|Starting time slot value|
+|chosen-end-time|String|no|true|true|Ending time slot value|
+|chosen-units|Number|no|true|true|Number of slots chosen|
+
+
+
+### Occupency property must be an Array of meetings
+
+```javascript  
+    occupency: [{
+            meetingName: 'Sai\'s Meeting',
+            meetingId: 'bbcks',
+            meetingStartTime: '3:00 PM',
+            units: 4
+          },
+          {
+            meetingName: 'Ranveer\'s Meeting',
+            meetingId: 'wqqps',
+            meetingStartTime: '7:00 PM',
+            units: 2
+          },
+          {
+            meetingName: 'Daman\'s Meeting',
+            meetingId: 'kisoe',
+            meetingStartTime: '8:00 PM',
+            units: 1
+          }
+        ]
 ```
-$ polymer serve
-```
 
-## Running Tests
+## Styling
 
-```
-$ polymer test
-```
+|CSS variable|description|default|
+|-|-|-|
+|`--timeslot-unit-height`|Timeslot unit height|50px|
+|`--timeslot-unit-width`|Timeslot unit width|50px|
+|`--timeslot-available-bg`|Timeslot Available background color| #fff|
+|`--timeslot-unavailable-bg`|Timeslot Unvailable background color| #666|
+|`--timeslot-font-size`|Timeslot indicators and slots text size| 10px|
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+Please note: Property with `notify: true` fires a _property_-changed event when the value is changed.
+    Example: *PropertyName* fires `property-name-changed` event on value change
+
+[npm]('https://www.npmjs.com/package/timeslot-picker')
+[github]('https://github.com/DamandeepS/timeslot-picker')
