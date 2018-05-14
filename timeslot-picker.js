@@ -88,7 +88,7 @@ class TimeslotPicker extends PolymerElement {
   }
   static get properties() {
     return {
-      occupancy: {
+      bookings: {
         type: Array,
         value: [{
             meetingName: 'Sai\'s Meeting',
@@ -157,7 +157,7 @@ class TimeslotPicker extends PolymerElement {
 
       }
       return arr;
-    })(this.occupancy)
+    })(this.bookings)
 
     var availableSlotStartTime = null, aUnits=0, availableSlotId=null;
     for(let i=0; i<=47; i++) {
@@ -184,7 +184,7 @@ class TimeslotPicker extends PolymerElement {
                 return b;
             }
             return null;
-          })(this.occupancy,time);
+          })(this.bookings,time);
           // console.log('BOOKING: ', currentBooking)
           if(currentBooking) {
             unit.set('units', currentBooking.units||1);

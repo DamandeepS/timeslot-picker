@@ -11,17 +11,17 @@ An overlay is shown as slider to select slots
 
 |Property|type|required|reflected|notify|description|
 |----|---|--|--|--|--|
-|occupency|Array|yes|false|false|Set of slots already booked |
+|bookings|Array|yes|false|false|Set of slots already booked |
 |chosen-start-time|String|no|true|true|Starting time slot value|
 |chosen-end-time|String|no|true|true|Ending time slot value|
 |chosen-units|Number|no|true|true|Number of slots chosen|
 
 
 
-### Occupency property must be an Array of meetings
+### _bookings_ property must be an Array of meetings
 
 ```javascript  
-    occupency: [{
+    bookings: [{
             meetingName: 'Sai\'s Meeting',
             meetingId: 'bbcks',
             meetingStartTime: '3:00 PM',
@@ -55,5 +55,7 @@ An overlay is shown as slider to select slots
 Please note: Property with `notify: true` fires a _property_-changed event when the value is changed.
     Example: *PropertyName* fires `property-name-changed` event on value change
 
-[npm]('https://www.npmjs.com/package/timeslot-picker')
-[github]('https://github.com/DamandeepS/timeslot-picker')
+[npm][1]
+[github][2]
+[1]: https://www.npmjs.com/package/timeslot-picker
+[2]: https://github.com/DamandeepS/timeslot-picker
