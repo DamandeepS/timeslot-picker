@@ -56,6 +56,9 @@ Please note: Property with `notify: true` fires a _property_-changed event when 
     Example: *PropertyName* fires `property-name-changed` event on value change
 
 [npm][1]
+
 [github][2]
+
+
 [1]: https://www.npmjs.com/package/timeslot-picker
 [2]: https://github.com/DamandeepS/timeslot-picker
