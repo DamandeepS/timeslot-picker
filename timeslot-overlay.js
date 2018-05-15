@@ -155,7 +155,7 @@ class TimeslotOverlay extends PolymerElement {
       },
       chosenUnits: {
         type: Number,
-        value: 0,
+        value: 1,
         notify: true
       },
       _allowedUnits: {
@@ -163,9 +163,10 @@ class TimeslotOverlay extends PolymerElement {
         computed: '_computedAllowedUnits(availableUnits)',
         observer: '_allowedUnitsChanged'
       },
-      value: {
+      containerLeftoffset: {
         type: Number,
         value: 0,
+        reflectToAttribute: true
       }
     };
 
@@ -245,6 +246,7 @@ class TimeslotOverlay extends PolymerElement {
     this.$.range.addEventListener('input', e=> {
       this.chosenUnits = this.$.range.value;
     })
+      this.set('containerLeftoffset', parseInt(this.$.container.offsetLeft));
   }
 
   _computeTime(time, units) {
@@ -253,10 +255,9 @@ class TimeslotOverlay extends PolymerElement {
       return this._convert24to12Hours(this._addMinutes(this._convert12to24Hours(time) , minutes));
     }
   }
-  //
-  // initialTimeChanged(a,b) {
-  //   console.log(a,b)
-  // }
+
+  _computeContainerLeftoffset(v) {
+  }
 
 }
 

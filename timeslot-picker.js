@@ -37,6 +37,12 @@ class TimeslotPicker extends PolymerElement {
           min-width: 2450px;
         }
 
+        #tooltip {
+          position: absolute;
+          top: -30px;
+          width: calc( var(--timeslot-unit-width, 50px));
+        }
+
         :host(::-webkit-scrollbar) {
           display: none;
         }
@@ -72,18 +78,17 @@ class TimeslotPicker extends PolymerElement {
           right:0;
         }
       </style>
-            <div class="scroll-btn left" on-click='scrollLeft'>&lt;</div>
+      <div class="scroll-btn left" on-click='scrollLeft'>&lt;</div>
+      <div id="tooltip" hidden$="[[!overlayActive]]" style="left: [[tooltipLeftOffset]]px">SOMETHING</div>
       <div id="container">
-            <div id="units">
-              <slot name="units">
-              </slot>
-            </div>
-      <div id="overlaycontainer" hidden$='[[!overlayActive]]'></div>
-
+        <div id="units">
+          <slot name="units">
+          </slot>
         </div>
-                <div class="scroll-btn right" on-click='scrollRight'>&gt;</div>
-
+        <div id="overlaycontainer" hidden$='[[!overlayActive]]'></div>
       </div>
+      <div class="scroll-btn right" on-click='scrollRight'>&gt;</div>
+
     `;
   }
   static get properties() {
@@ -139,6 +144,21 @@ class TimeslotPicker extends PolymerElement {
         reflectToAttribute: true,
         notify: true
       },
+
+      rangeContainerOffset: {
+        type: Number,
+        value: 0
+      },
+
+      rangeLeftPosition: {
+        type: Number,
+        computed: '_computeRangeLeftPosition(rangeContainerOffset)'
+      },
+
+      tooltipLeftOffset: {
+        type: Number,
+        computed: '_computeTooltipLeftOffset(rangeLeftPosition, chosenUnits)'
+      }
 
     };
 
@@ -277,6 +297,8 @@ class TimeslotPicker extends PolymerElement {
     overlay.addEventListener('chosen-time-changed', e => {
       this.set('chosenEndTime', e.detail.value);
     });
+
+    this.set('rangeContainerOffset', overlay.containerLeftoffset);
   }
 
   scrollLeft() {
@@ -302,6 +324,27 @@ class TimeslotPicker extends PolymerElement {
       this.chosenEndTime =  end;
       this.set('chosenUnits', 1);
     }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.$.container.addEventListener('scroll', e => {
+      this.rangeContainerOffset+=1;
+      this.rangeContainerOffset-=1;
+    })
+  }
+
+  _computeRangeLeftPosition(rangeContainerOffset){
+    return  rangeContainerOffset - this.$.container.scrollLeft;
+  }
+
+  _computeTooltipLeftOffset(pos, units) {
+    const unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) || 50,
+    maxWidth = this.$.container.getBoundingClientRect().width;
+    let delta = pos + unitWidth*(parseInt(units-1)+0.5) + parseInt(units)*1;//0.5 is for left margin of the input range
+    let scrollPos = delta>=0?delta:0;
+    scrollPos = scrollPos<maxWidth?scrollPos:maxWidth;
+    return scrollPos;
   }
 }
 
