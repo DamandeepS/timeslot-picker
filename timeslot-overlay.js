@@ -83,6 +83,24 @@ class TimeslotOverlay extends PolymerElement {
           background: #0000;
           border: 0px solid #000101;
         }
+         #range::-ms-track {
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+          animate: 0.2s;
+          box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+          background: #0000;
+          border: 0px solid #000101;
+        }
+        #range::-moz-range-track {
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+          animate: 0.2s;
+          box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+          background: #0000;
+          border: 0px solid #000101;
+        }
 
         #range:before {
           content: '';
@@ -96,7 +114,45 @@ class TimeslotOverlay extends PolymerElement {
         }
 
         #range::-webkit-slider-thumb {
+          box-shadow: 0px 0px 0 #00000000, 0px 0px 0 #0d0d0d00;
+          border: 0px solid #000000;
+          height: calc( var(--timeslot-unit-height, 50px) - 10px);
+          width: calc( var(--timeslot-unit-width, 50px) - 10px);
+          border-radius: 50%;
+          background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUyIDUyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MiA1MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiM2NjYiIGQ9Ik0yNiwwQzExLjY2NCwwLDAsMTEuNjYzLDAsMjZzMTEuNjY0LDI2LDI2LDI2czI2LTExLjY2MywyNi0yNlM0MC4zMzYsMCwyNiwweiBNMzguNSwyOEgyOHYxMWMwLDEuMTA0LTAuODk2LDItMiwycy0yLTAuODk2LTItMlYyOEgxMy41Yy0xLjEwNCwwLTItMC44OTYtMi0yczAuODk2LTIsMi0ySDI0VjE0YzAtMS4xMDQsMC44OTYtMiwyLTJzMiwwLjg5NiwyLDJ2MTBoMTAuNWMxLjEwNCwwLDIsMC44OTYsMiwyUzM5LjYwNCwyOCwzOC41LDI4eiIvPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==), #ffff;
+          cursor: pointer;
+          fill: var(--timeslot-unavailable-bg, #666);
+          -webkit-appearance: none;
+          margin-top: 3px;
+          position: relative;
+          z-index: 2;
+        }
+
+        #range:focus::-webkit-slider-thumb {
+          box-shadow: 0px 2px 20px -2px #000000;
+        }
+        #range:focus-within::-webkit-slider-thumb {
+          box-shadow: 0px 2px 20px -2px #000000;
+        }
+
+
+         #range::-ms-thumb {
           box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+          border: 0px solid #000000;
+          height: calc( var(--timeslot-unit-height, 50px) - 10px);
+          width: calc( var(--timeslot-unit-width, 50px) - 10px);
+          border-radius: 50%;
+          background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUyIDUyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MiA1MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiM2NjYiIGQ9Ik0yNiwwQzExLjY2NCwwLDAsMTEuNjYzLDAsMjZzMTEuNjY0LDI2LDI2LDI2czI2LTExLjY2MywyNi0yNlM0MC4zMzYsMCwyNiwweiBNMzguNSwyOEgyOHYxMWMwLDEuMTA0LTAuODk2LDItMiwycy0yLTAuODk2LTItMlYyOEgxMy41Yy0xLjEwNCwwLTItMC44OTYtMi0yczAuODk2LTIsMi0ySDI0VjE0YzAtMS4xMDQsMC44OTYtMiwyLTJzMiwwLjg5NiwyLDJ2MTBoMTAuNWMxLjEwNCwwLDIsMC44OTYsMiwyUzM5LjYwNCwyOCwzOC41LDI4eiIvPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==), #ffff;
+          cursor: pointer;
+          fill: var(--timeslot-unavailable-bg, #666);
+          -webkit-appearance: none;
+          margin-top: 3px;
+          position: relative;
+          z-index: 2;
+        }
+
+        #range::-moz-range-thumb {
+          box-shadow: 0px 0px 0px #00000000, 0px 0px 0px #0d0d0d00;
           border: 0px solid #000000;
           height: calc( var(--timeslot-unit-height, 50px) - 10px);
           width: calc( var(--timeslot-unit-width, 50px) - 10px);
@@ -112,12 +168,18 @@ class TimeslotOverlay extends PolymerElement {
         input[type=range]:focus::-webkit-slider-runnable-track {
           background: #ac51b5;
         }
+        input[type=range]::-ms-track {
+          background: #ac51b5;
+        }
+        input[type=range]::-moz-range-track {
+          //background: #ac51b5;
+        }
       </style>
 
       <div id='container'>
-        <div class="time-indicators" id="min-time">[[minTime]]</div>
-        <input id="range" min='1' step='1' type="range" max="[[_allowedUnits]]" value="1"/>
-        <div class="time-indicators" id="max-time">[[maxTime]]</div>
+        <div class="time-indicators" id="min-time" hidden$="[[hideMinTime]]">[[minTime]]</div>
+        <input id="range" min='1' step='1' type="range" max="[[_allowedUnits]]" value="1"></input>
+        <div class="time-indicators" id="max-time" hidden$="[[hideMaxTime]]">[[maxTime]]</div>
       </div>
     `;
   }
@@ -155,17 +217,25 @@ class TimeslotOverlay extends PolymerElement {
       },
       chosenUnits: {
         type: Number,
-        value: 0,
-        notify: true
+        value: 1,
+        notify: true,
+        observer: '_chosenUnitsChanged' //This is needed because z-index doesn't work with the slider thumb of input range !HACK
       },
       _allowedUnits: {
         type: Number,
         computed: '_computedAllowedUnits(availableUnits)',
         observer: '_allowedUnitsChanged'
       },
-      value: {
+      containerLeftoffset: {
         type: Number,
         value: 0,
+        reflectToAttribute: true
+      },
+      hideMinTime: {//This is needed because z-index doesn't work with the slider thumb of input range !HACK
+        type: Boolean
+      },
+      hideMaxTime: {//This is needed because z-index doesn't work with the slider thumb of input range !HACK
+        type: Boolean
       }
     };
 
@@ -245,6 +315,7 @@ class TimeslotOverlay extends PolymerElement {
     this.$.range.addEventListener('input', e=> {
       this.chosenUnits = this.$.range.value;
     })
+      this.set('containerLeftoffset', parseInt(this.$.container.offsetLeft));
   }
 
   _computeTime(time, units) {
@@ -253,10 +324,14 @@ class TimeslotOverlay extends PolymerElement {
       return this._convert24to12Hours(this._addMinutes(this._convert12to24Hours(time) , minutes));
     }
   }
-  //
-  // initialTimeChanged(a,b) {
-  //   console.log(a,b)
-  // }
+
+  _chosenUnitsChanged(newVal, oldVal) {
+    this.hideMinTime = this.hideMaxTime = false;
+    if(newVal==1)
+      this.hideMinTime = true;
+    else if(newVal == this._allowedUnits)
+      this.hideMaxTime = true;
+  }
 
 }
 

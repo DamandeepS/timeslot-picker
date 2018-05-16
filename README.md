@@ -12,9 +12,9 @@ An overlay is shown as slider to select slots
 |Property|type|required|reflected|notify|description|
 |----|---|--|--|--|--|
 |bookings|Array|yes|false|false|Set of slots already booked |
-|chosen-start-time|String|no|true|true|Starting time slot value|
-|chosen-end-time|String|no|true|true|Ending time slot value|
-|chosen-units|Number|no|true|true|Number of slots chosen|
+|chosenStartTime|String|no|true|true|Starting time slot value|
+|chosenEndTime|String|no|true|true|Ending time slot value|
+|chosenUnits|Number|no|true|true|Number of slots chosen|
 
 
 
@@ -54,6 +54,10 @@ An overlay is shown as slider to select slots
 
 Please note: Property with `notify: true` fires a _property_-changed event when the value is changed.
     Example: *PropertyName* fires `property-name-changed` event on value change
+
+    Reflected attributes updates the element with property attribute when the value changes.
+    Example: *PropertyName* updates the attribute as `property-name="value"`
+
 
 [npm][1]
 
