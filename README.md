@@ -9,7 +9,7 @@ An overlay is shown as slider to select slots
 ## Properties
 
 
-|Property|type|required|reflected<sup>*</sup>|notify<sup>*</sup>|description|
+|Property|type|required|reflected _\*_|notify _\*_|description|
 |----|---|--|--|--|--|
 |bookings|Array|yes|false|false|Set of slots already booked |
 |chosenStartTime|String|no|true|true|Starting time slot value|
@@ -44,21 +44,22 @@ An overlay is shown as slider to select slots
 
 
 
-### Please note<sup>*</sup>: ### 
+### _\*_ Please note: ###
 Property with `notify: true` fires a _property_-changed event when the value is changed.
     Example: *PropertyName* fires `property-name-changed` event on value change
 
 Reflected attributes updates the element with property attribute when the value changes.
     Example: *PropertyName* updates the attribute as `property-name="value"`
 
-##Event Listener
+## Events
+
 |Event|Detail Object|Description|
 |--|--|--|
-|close| - |Closes the Choose Slider|
-|open|slot|Opens the Choose slider|
+|close| _not required_ |Closes the Slider|
+|open|slot: `<number>`|Opens the slider at the mentioned slot|
 
 dispatch Event to this element
-Example: 
+Example:
 ```javascript
 document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', {
     detail: {
@@ -67,7 +68,7 @@ document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', 
 }))
 ```
 
-## Styling
+## Styling ##
 
 |CSS variable|description|default|
 |-|-|-|
