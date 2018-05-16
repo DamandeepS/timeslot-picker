@@ -204,7 +204,6 @@ class TimeslotPicker extends PolymerElement {
     for(let i=0; i<=47; i++) {
 
       let time = this._convert24to12Hours(this._addMinutes(startTime,30 * i));
-        //console.log(time, bookedSlots);
 
       let unit = document.createElement('timeslot-unit');
       unit.set('initialTime', time);
@@ -217,35 +216,31 @@ class TimeslotPicker extends PolymerElement {
         aUnits=0;
       }
 
-        // console.log(time, bookedSlots)
-        if(bookedSlots.indexOf(time)>-1) {
-                console.log(time, bookedSlots)
-          const currentBooking = ((o,t) => {
-            for(const b of o) {
-              if(b.meetingStartTime == t)
-                return b;
-            }
-            return null;
-          })(this.bookings,time);
-          // console.log('BOOKING: ', currentBooking)
-          if(currentBooking) {
-            unit.set('units', currentBooking.units||1);
-            unit.set('bookingId',currentBooking.meetingId);
-            i+=currentBooking.units-1;
+      if(bookedSlots.indexOf(time)>-1) {
+        const currentBooking = ((o,t) => {
+          for(const b of o) {
+            if(b.meetingStartTime == t)
+              return b;
           }
-          // console.log(unit);
-          if(aUnits>0) {
-          this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
-          availableSlotStartTime=null;
-          }
-        } else{
-            aUnits++;
+          return null;
+        })(this.bookings,time);
+        if(currentBooking) {
+          unit.set('units', currentBooking.units||1);
+          unit.set('bookingId',currentBooking.meetingId);
+          i+=currentBooking.units-1;
         }
+        if(aUnits>0) {
+        this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
+        availableSlotStartTime=null;
+        }
+      } else{
+          aUnits++;
+      }
 
-        unit.addEventListener('timeslot-pick-start', this._addOverlayListener.bind(this));
+      unit.addEventListener('timeslot-pick-start', this._addOverlayListener.bind(this));
 
-        if((i==47) && availableSlotStartTime)
-          this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
+      if((i==47) && availableSlotStartTime)
+        this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
 
       this.appendChild(unit);
     }
@@ -254,9 +249,7 @@ class TimeslotPicker extends PolymerElement {
     for(let a of this.get('availableSlots')) {
       const index = parseInt(a['availableSlotId'].split('slot_')[1]),
       limit=index+a['aUnits'];
-        // console.log(a, index, index+limit)
         for(let i = index;i<limit;i++ ) {
-        // console.log(a, "asd") //, parseInt(a['availableSlotId'].split('slot_')[1]), i, a['aUnits'] - i
         document.querySelector('#slot_' + i).availableUnits = limit - i;
       }
     }
@@ -341,7 +334,6 @@ class TimeslotPicker extends PolymerElement {
   }
 
   _startTimeChanged(newVal, oldVal) {
-    console.log(newVal)
     if(newVal && !this.chosenEndTime) {
       const end = this._convert24to12Hours(this._addMinutes(this._convert12to24Hours(newVal),30))
       this.chosenEndTime =  end;
@@ -355,7 +347,22 @@ class TimeslotPicker extends PolymerElement {
       this.rangeContainerOffset+=1;
       this.rangeContainerOffset-=1;
     });
+
+    this.addEventListener('close', e=> {
+      this.$.overlaycontainer.innerHTML;
+      this.set('overlayActive', false);
+    })
+
+    this.addEventListener('open', e=> {
+      let slot;
+      if(e.detail)
+      slot = e.detail.slot
+      if(slot)
+      this.querySelector('#slot_' + slot).click();
+    })
   }
+
+
 
   _computeRangeLeftPosition(rangeContainerOffset){
     return  rangeContainerOffset - this.$.container.scrollLeft;

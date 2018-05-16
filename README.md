@@ -58,6 +58,24 @@ Please note: Property with `notify: true` fires a _property_-changed event when 
     Reflected attributes updates the element with property attribute when the value changes.
     Example: *PropertyName* updates the attribute as `property-name="value"`
 
+##Event Listener
+|Event|Detail Object|Description|
+|--|--|--|
+|close| |Closes the Choose Slider|
+|open|slot|Opens the Choose slider|
+
+dispatch Event to this element
+Example: ```javascript
+          document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', {
+            detail: {
+              slot: 2
+            }
+          }))```
+
+
+
+
+
 
 [npm][1]
 
