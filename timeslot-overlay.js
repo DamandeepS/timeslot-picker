@@ -114,7 +114,7 @@ class TimeslotOverlay extends PolymerElement {
         }
 
         #range::-webkit-slider-thumb {
-          box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+          box-shadow: 0px 0px 0 #00000000, 0px 0px 0 #0d0d0d00;
           border: 0px solid #000000;
           height: calc( var(--timeslot-unit-height, 50px) - 10px);
           width: calc( var(--timeslot-unit-width, 50px) - 10px);
@@ -127,6 +127,15 @@ class TimeslotOverlay extends PolymerElement {
           position: relative;
           z-index: 2;
         }
+
+        #range:focus::-webkit-slider-thumb {
+          box-shadow: 0px 2px 20px -2px #000000;
+        }
+        #range:focus-within::-webkit-slider-thumb {
+          box-shadow: 0px 2px 20px -2px #000000;
+        }
+
+
          #range::-ms-thumb {
           box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
           border: 0px solid #000000;
@@ -143,7 +152,7 @@ class TimeslotOverlay extends PolymerElement {
         }
 
         #range::-moz-range-thumb {
-          box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+          box-shadow: 0px 0px 0px #00000000, 0px 0px 0px #0d0d0d00;
           border: 0px solid #000000;
           height: calc( var(--timeslot-unit-height, 50px) - 10px);
           width: calc( var(--timeslot-unit-width, 50px) - 10px);
@@ -169,7 +178,7 @@ class TimeslotOverlay extends PolymerElement {
 
       <div id='container'>
         <div class="time-indicators" id="min-time" hidden$="[[hideMinTime]]">[[minTime]]</div>
-        <input id="range" min='1' step='1' type="range" max="[[_allowedUnits]]" value="1"/>
+        <input id="range" min='1' step='1' type="range" max="[[_allowedUnits]]" value="1"></input>
         <div class="time-indicators" id="max-time" hidden$="[[hideMaxTime]]">[[maxTime]]</div>
       </div>
     `;
