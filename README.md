@@ -9,7 +9,7 @@ An overlay is shown as slider to select slots
 ## Properties
 
 
-|Property|type|required|reflected|notify|description|
+|Property|type|required|reflected<sup>*</sup>|notify<sup>*</sup>|description|
 |----|---|--|--|--|--|
 |bookings|Array|yes|false|false|Set of slots already booked |
 |chosenStartTime|String|no|true|true|Starting time slot value|
@@ -42,6 +42,31 @@ An overlay is shown as slider to select slots
         ]
 ```
 
+
+
+### Please note<sup>*</sup>: ### 
+Property with `notify: true` fires a _property_-changed event when the value is changed.
+    Example: *PropertyName* fires `property-name-changed` event on value change
+
+Reflected attributes updates the element with property attribute when the value changes.
+    Example: *PropertyName* updates the attribute as `property-name="value"`
+
+##Event Listener
+|Event|Detail Object|Description|
+|--|--|--|
+|close| - |Closes the Choose Slider|
+|open|slot|Opens the Choose slider|
+
+dispatch Event to this element
+Example: 
+```javascript
+document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', {
+    detail: {
+          slot: 2
+        }
+}))
+```
+
 ## Styling
 
 |CSS variable|description|default|
@@ -52,35 +77,13 @@ An overlay is shown as slider to select slots
 |`--timeslot-unavailable-bg`|Timeslot Unvailable background color| #666|
 |`--timeslot-font-size`|Timeslot indicators and slots text size| 10px|
 
-Please note: Property with `notify: true` fires a _property_-changed event when the value is changed.
-    Example: *PropertyName* fires `property-name-changed` event on value change
+[npmjs.org][1]
 
-    Reflected attributes updates the element with property attribute when the value changes.
-    Example: *PropertyName* updates the attribute as `property-name="value"`
+[github.com][2]
 
-##Event Listener
-|Event|Detail Object|Description|
-|--|--|--|
-|close| |Closes the Choose Slider|
-|open|slot|Opens the Choose slider|
-
-dispatch Event to this element
-Example: ```javascript
-          document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', {
-            detail: {
-              slot: 2
-            }
-          }))```
-
-
-
-
-
-
-[npm][1]
-
-[github][2]
+[webcomponents.org][3]
 
 
 [1]: https://www.npmjs.com/package/timeslot-picker
 [2]: https://github.com/DamandeepS/timeslot-picker
+[3]: https://www.webcomponents.org/element/timeslot-picker
