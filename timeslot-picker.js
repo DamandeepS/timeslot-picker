@@ -17,7 +17,6 @@ class TimeslotPicker extends PolymerElement {
         :host {
           display: block;
           width: 100%;
-          overflow-x: auto;
           white-space: nowrap;
           position: relative;
         }
@@ -28,6 +27,7 @@ class TimeslotPicker extends PolymerElement {
           overflow-x: auto;
           white-space: nowrap;
           position: relative;
+          overflow-y: hidden;
         }
 
         #units {
@@ -40,7 +40,23 @@ class TimeslotPicker extends PolymerElement {
         #tooltip {
           position: absolute;
           top: -30px;
-          width: calc( var(--timeslot-unit-width, 50px));
+          width: calc( var(--timeslot-unit-width, 50px) - 10px);
+          background: #000a;
+          padding: 5px;
+          color: #fff;
+          overflow: hidden;
+          border-radius: 3px;
+          font-size: 10px;
+          text-align: center;
+        }
+
+        #tooltip:after {
+          content: "";
+          position: absolute;
+          bottom: -3px;
+          width: 5px;
+          height: 5px;
+          background: #000a;
         }
 
         :host(::-webkit-scrollbar) {
@@ -79,7 +95,7 @@ class TimeslotPicker extends PolymerElement {
         }
       </style>
       <div class="scroll-btn left" on-click='scrollLeft'>&lt;</div>
-      <div id="tooltip" hidden$="[[!overlayActive]]" style="left: [[tooltipLeftOffset]]px">SOMETHING</div>
+      <div id="tooltip" hidden$="[[!overlayActive]]" style="left: [[tooltipLeftOffset]]px">[[chosenEndTime]]</div>
       <div id="container">
         <div id="units">
           <slot name="units">
@@ -158,6 +174,11 @@ class TimeslotPicker extends PolymerElement {
       tooltipLeftOffset: {
         type: Number,
         computed: '_computeTooltipLeftOffset(rangeLeftPosition, chosenUnits)'
+      },
+
+      unitWidth: {
+        type: Number,
+        value: 0//getComputedStyle(this).getPropertyValue('--timeslot-unit-width') is not working for UNTIS in firefox !HACK
       }
 
     };
@@ -188,6 +209,7 @@ class TimeslotPicker extends PolymerElement {
       let unit = document.createElement('timeslot-unit');
       unit.set('initialTime', time);
       unit.setAttribute('slot','units');
+      unit.set('unitWidth', this.unitWidth);//getComputedStyle(this).getPropertyValue('--timeslot-unit-width') is not working for UNTIS in firefox !HACK
       unit.id='slot_'+i;
       if(!availableSlotStartTime || aUnits == 0) {
         availableSlotStartTime=time;
@@ -312,6 +334,7 @@ class TimeslotPicker extends PolymerElement {
     super.ready();
     const unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) || 50,
     newWidth = 48*(unitWidth+1) + 2; //1 for margin
+    this.set('unitWidth',unitWidth);
     this.$.units.style.width = newWidth + "px";
     this.$.units.style.minWidth = newWidth + "px";
     this.$.overlaycontainer.style.width = newWidth + "px";
@@ -331,7 +354,7 @@ class TimeslotPicker extends PolymerElement {
     this.$.container.addEventListener('scroll', e => {
       this.rangeContainerOffset+=1;
       this.rangeContainerOffset-=1;
-    })
+    });
   }
 
   _computeRangeLeftPosition(rangeContainerOffset){
@@ -345,6 +368,14 @@ class TimeslotPicker extends PolymerElement {
     let scrollPos = delta>=0?delta:0;
     scrollPos = scrollPos<maxWidth?scrollPos:maxWidth;
     return scrollPos;
+  }
+
+  constructor() {
+    super();
+
+        const unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) || 50;
+        this.set('unitWidth',unitWidth);
+        //getComputedStyle(this).getPropertyValue('--timeslot-unit-width') is not working for UNTIS in firefox !HACK
   }
 }
 
