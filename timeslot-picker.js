@@ -82,7 +82,7 @@ class TimeslotPicker extends PolymerElement {
           background: var(--timeslot-picker-scroll-btn-background, #fff);
           z-index: 2;
           cursor: pointer;
-          color: var(--timeslot-picker-scroll-btn-color, #fff);
+          color: var(--timeslot-picker-scroll-btn-color, #000);
           user-select: none;
           @apply --timeslot-picker-scroll-btn;
         }
