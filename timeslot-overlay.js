@@ -19,7 +19,7 @@ class TimeslotOverlay extends PolymerElement {
           white-space: nowrap;
           position: relative;
           height: var(--timeslot-unit-height, 50px);
-          background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAASElEQVQY02NgQALS/5F5Ssg8qa/IUgooUg+QpWRRpA7hNB5VCsV4VANReKjOQDWDgYFIm/G4F7cv8YSNLG4pFCNQeSjq0MwAAPCoHW3Q0Dt9AAAAAElFTkSuQmCC');
+          background: var(--timeslot-overlay-background,url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAASElEQVQY02NgQALS/5F5Ssg8qa/IUgooUg+QpWRRpA7hNB5VCsV4VANReKjOQDWDgYFIm/G4F7cv8YSNLG4pFCNQeSjq0MwAAPCoHW3Q0Dt9AAAAAElFTkSuQmCC'));
         }
 
         #units {
@@ -32,12 +32,14 @@ class TimeslotOverlay extends PolymerElement {
         #container {
           width: var(--timeslot-unit-width, 50px);
           height: var(--timeslot-unit-height, 50px);
-          background: #ccc;
+          background: var(--timeslot-overlay-container-background,#ccc);
           position: absolute;
           display: flex;
           align-items: center;
           flex-direction: column;
           box-sizing: border-box;
+          border-left: var(--timeslot-overlay-container-border-left, 1px solid black);
+          border-right: var(--timeslot-overlay-container-border-right, 1px solid black);
           @apply --timeslot-overlay-container;
         }
 

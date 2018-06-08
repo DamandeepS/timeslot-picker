@@ -41,14 +41,15 @@ class TimeslotPicker extends PolymerElement {
           position: absolute;
           top: -30px;
           width: calc( var(--timeslot-unit-width, 50px) - 10px);
-          background: #000a;
+          background: var(--timeslot-picker-tooltip-background,#000a);
           padding: 5px;
-          color: #fff;
+          color: var(--timeslot-picker-tooltip-color,#fff);
           overflow: hidden;
           border-radius: 3px;
           font-size: 10px;
           text-align: center;
           @apply --timeslot-picker-tooltip;
+
         }
 
 
@@ -74,9 +75,11 @@ class TimeslotPicker extends PolymerElement {
           border: 1px solid #999;
           position: absolute;
           text-align: center;
-          background: var(--timeslot-available-bg, #fff);
+          background: var(--timeslot-picker-scroll-btn-background, #fff);
           z-index: 2;
           cursor: pointer;
+          color: var(--timeslot-picker-scroll-btn-color, #fff);
+          user-select: none;
           @apply --timeslot-picker-scroll-btn;
         }
 
@@ -275,8 +278,8 @@ class TimeslotPicker extends PolymerElement {
 
   _addOverlayListener(e) {
 
-    this.set('chosenStartTime', e.detail.time);
     this.set('overlayActive', true);
+    this.set('chosenStartTime', e.detail.time);
     const overlayContainer = this.$.overlaycontainer;
     overlayContainer.innerHTML = '';
     const overlay = document.createElement('timeslot-overlay');
@@ -311,7 +314,7 @@ class TimeslotPicker extends PolymerElement {
   ready() {
     super.ready();
     const unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) || 50,
-    newWidth = 48*(unitWidth+1) + 2; //1 for margin
+    newWidth = 48*(unitWidth+1);
     this.$.units.style.width = newWidth + "px";
     this.$.units.style.minWidth = newWidth + "px";
     this.$.overlaycontainer.style.width = newWidth + "px";
@@ -333,16 +336,18 @@ class TimeslotPicker extends PolymerElement {
     });
 
     this.addEventListener('close', e=> {
-      this.$.overlaycontainer.innerHTML;
+      this.set('chosenEndTime', "")
+      this.$.overlaycontainer.innerHTML = "";
       this.set('overlayActive', false);
     })
 
     this.addEventListener('open', e=> {
+      this.dispatchEvent(new CustomEvent('close', {}))
       let slot;
       if(e.detail)
       slot = e.detail.slot
       if(slot)
-      this.querySelector('#slot_' + slot).click();
+        this.shadowRoot.querySelector('#slot_' + slot).click()
     })
   }
 

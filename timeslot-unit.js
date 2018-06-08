@@ -16,6 +16,7 @@ class TimeslotUnit extends PolymerElement {
           display: flex;
           flex-direction: column;
           width: var(--timeslot-unit-width, 50px);
+          max-width: var(--timeslot-unit-width, 50px);
           flex: 1 1;
           align-items: center;
           height: var(--timeslot-unit-height, 50px);
@@ -25,6 +26,7 @@ class TimeslotUnit extends PolymerElement {
           border: 1px solid #999;
           box-sizing: border-box;
           cursor: pointer;
+          border-radius: var(--timeslot-border-radius, 0);
           @apply --timeslot-unit-available;
         }
 
@@ -111,6 +113,14 @@ class TimeslotUnit extends PolymerElement {
       time[0] = +time[0] % 12 || 12; // Adjust hours
     }
     return time.join (''); // return adjusted time or original string
+  }
+
+
+  _unitsChanged(newVal,oldVal) {
+    const unitWidth = this.unitWidth || parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) || 50;//getComputedStyle(this).getPropertyValue('--timeslot-unit-width') is not working for UNTIS in firefox !HACK
+      this.style.maxWidth = (unitWidth*newVal) + 'px';
+      this.style.width = (unitWidth*newVal) + 'px';
+      this.set('singleLineView', newVal!=1)
   }
 
   _addMinutes(time, minsToAdd) {
