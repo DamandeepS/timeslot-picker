@@ -75,8 +75,16 @@ document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', 
 |`--timeslot-unit-height`|Timeslot unit height|50px|
 |`--timeslot-unit-width`|Timeslot unit width|50px|
 |`--timeslot-available-bg`|Timeslot Available background color| #fff|
-|`--timeslot-unavailable-bg`|Timeslot Unvailable background color| #666|
+|`--timeslot-unavailable-bg`|Timeslot Unavailable background color| #666|
 |`--timeslot-font-size`|Timeslot indicators and slots text size| 10px|
+|`--timeslot-picker-tooltip-background`|Tooltip bubble background color| #000|
+|`--timeslot-picker-tooltip-color`|Tooltip bubble text color| #fff|
+|`--timeslot-picker-scroll-btn-background`|Left and right scroll buttons background| #fff|
+|`--timeslot-picker-scroll-btn-color`|Left and right scroll text background| #000|
+|`--timeslot-overlay-background`| Background color for overlay over the timeslot units| **Right Striped Image**|
+|`--timeslot-overlay-container-background`| Background color for the container which contains slider| #777|
+|`--timeslot-overlay-container-border-left`|Timeslot indicators left border| none |
+|`--timeslot-overlay-container-border-right`|Timeslot indicators right border| none |
 
 [npmjs.org][1]
 

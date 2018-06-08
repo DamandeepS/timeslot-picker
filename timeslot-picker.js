@@ -30,6 +30,10 @@ class TimeslotPicker extends PolymerElement {
           overflow-y: hidden;
         }
 
+        #container::-webkit-scrollbar {
+          display: none;
+        }
+
         #units {
           display: flex;
           align-items: flex-start;
@@ -305,10 +309,10 @@ class TimeslotPicker extends PolymerElement {
   }
 
   scrollLeft() {
-    this.$.container.scrollBy(-250,0);
+    this.$.container.scrollBy({top: 0, left: -250, behavior: 'smooth'});
   }
   scrollRight() {
-    this.$.container.scrollBy(250,0);
+    this.$.container.scrollBy({top: 0, left: 250, behavior: 'smooth'});
   }
 
   ready() {
