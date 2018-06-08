@@ -19,7 +19,7 @@ class TimeslotOverlay extends PolymerElement {
           white-space: nowrap;
           position: relative;
           height: var(--timeslot-unit-height, 50px);
-          background: #fff5;
+          background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAASElEQVQY02NgQALS/5F5Ssg8qa/IUgooUg+QpWRRpA7hNB5VCsV4VANReKjOQDWDgYFIm/G4F7cv8YSNLG4pFCNQeSjq0MwAAPCoHW3Q0Dt9AAAAAElFTkSuQmCC');
         }
 
         #units {
@@ -38,6 +38,7 @@ class TimeslotOverlay extends PolymerElement {
           align-items: center;
           flex-direction: column;
           box-sizing: border-box;
+          @apply --timeslot-overlay-container;
         }
 
         .time-indicators {
@@ -47,6 +48,7 @@ class TimeslotOverlay extends PolymerElement {
           line-height: var(--timeslot-unit-height, 50px);
           width: var(--timeslot-unit-width, 50px);
           font-size: var(--timeslot-font-size, 10px);
+          @apply --timeslot-overlay-time-indicators;
         }
 
         #min-time {
@@ -58,13 +60,15 @@ class TimeslotOverlay extends PolymerElement {
           z-index: 0;
         }
 
-        #container #range {
+        #range {
           box-sizing: border-box;
           padding: 20px auto;;
           height: var(--timeslot-unit-height, 50px);
           width: calc(100% - 10px);
           -webkit-appearance: none;
           background: transparent;
+
+          @apply --timeslot-overlay-slider;
         }
 
         #range:focus {

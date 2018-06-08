@@ -2,8 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="refresh" content="0;url=demo/" />
+    <!-- <meta http-equiv="refresh" content="0;url=demo/" /> -->
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <title>timeslot-picker</title>
+    <script type="module" src="./timeslot-picker.js"/>
   </head>
   <body>
     <!--
@@ -12,7 +15,6 @@
         with `polymer serve`.
       -->
 
-  <timeslot-unit initial-time="3:00 PM" units="3" available>
-</timeslot-unit>
+  <timeslot-picker ></timeslot-picker>
   </body>
 </html>

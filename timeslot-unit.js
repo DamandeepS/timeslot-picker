@@ -25,6 +25,7 @@ class TimeslotUnit extends PolymerElement {
           border: 1px solid #999;
           box-sizing: border-box;
           cursor: pointer;
+          @apply --timeslot-unit-available;
         }
 
         :host([booking-id]:not([booking-id=''])) {
@@ -78,10 +79,7 @@ class TimeslotUnit extends PolymerElement {
         type: Number,
         value: 0,
         reflectToAttribute: true
-      },
-      unitWidth: {
-        type: Number
-      }//getComputedStyle(this).getPropertyValue('--timeslot-unit-width') is not working for UNTIS in firefox !HACK
+      }
     };
   }
 
@@ -121,14 +119,6 @@ class TimeslotUnit extends PolymerElement {
     mins = piece[0]*60 + +piece[1] + +minsToAdd;
 
     return D(mins%(24*60)/60 | 0) + ':' + D(mins%60);
-  }
-
-
-  _unitsChanged(newVal,oldVal) {
-    const unitWidth = this.unitWidth || parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) || 50;//getComputedStyle(this).getPropertyValue('--timeslot-unit-width') is not working for UNTIS in firefox !HACK
-      this.style.maxWidth = (unitWidth*newVal) + 'px';
-      this.style.width = (unitWidth*newVal) + 'px';
-      this.set('singleLineView', newVal!=1)
   }
 
   _bookingChanged(newVal,oldVal) {
