@@ -181,8 +181,8 @@ class TimeslotPicker extends PolymerElement {
 
   initializeTimeline(newVal, oldVal) {
     const startTime='00:00'; //12:00 AM;
-    while (this.firstChild) {
-        this.removeChild(this.firstChild); //remove all children
+    while (this.$.units.firstChild) {
+      this.$.units.removeChild(this.$.units.firstChild); //remove all children
     }
     const bookedSlots = ((e) => {
       const arr = [];
