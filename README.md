@@ -81,10 +81,11 @@ document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', 
 |`--timeslot-picker-tooltip-color`|Tooltip bubble text color| #fff|
 |`--timeslot-picker-scroll-btn-background`|Left and right scroll buttons background| #fff|
 |`--timeslot-picker-scroll-btn-color`|Left and right scroll text background| #000|
-|`--timeslot-overlay-background`| Background color for overlay over the timeslot units| **Right Striped Image**|
+|`--timeslot-overlay-background`| Background color for overlay over the timeslot units| base64PNG|
 |`--timeslot-overlay-container-background`| Background color for the container which contains slider| #777|
-|`--timeslot-overlay-container-border-left`|Timeslot indicators left border| none |
-|`--timeslot-overlay-container-border-right`|Timeslot indicators right border| none |
+|`--timeslot-overlay-container-border-left`|Timeslot indicators left border| _none_ |
+|`--timeslot-overlay-container-border-right`|Timeslot indicators right border| _none_ |
+|`--timeslot-slider-thumb-background`|Slider thumb backgroud color| base64SVG |
 
 [npmjs.org][1]
 

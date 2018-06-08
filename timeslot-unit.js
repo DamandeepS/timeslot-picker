@@ -145,7 +145,8 @@ class TimeslotUnit extends PolymerElement {
           detail: {
             time: this.initialTime,
             aUnits: this.availableUnits,
-            leftOffset: this.offsetLeft
+            leftOffset: this.offsetLeft,
+            id: parseInt(this.id.split('slot_')[1])
           }
         }))
     })

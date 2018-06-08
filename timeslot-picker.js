@@ -153,6 +153,12 @@ class TimeslotPicker extends PolymerElement {
         notify: true,
         observer: '_startTimeChanged'
       },
+      selectedSlot: {
+        type:Number,
+        value: null,
+        notify: true,
+        reflectToAttribute: true
+      },
       chosenUnits: {
         type: Number,
         value: null,
@@ -284,6 +290,7 @@ class TimeslotPicker extends PolymerElement {
 
     this.set('overlayActive', true);
     this.set('chosenStartTime', e.detail.time);
+    this.set('selectedSlot', e.detail.id)
     const overlayContainer = this.$.overlaycontainer;
     overlayContainer.innerHTML = '';
     const overlay = document.createElement('timeslot-overlay');
