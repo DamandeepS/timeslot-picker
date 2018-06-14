@@ -86,6 +86,11 @@ document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', 
 |`--timeslot-overlay-container-border-left`|Timeslot indicators left border| _none_ |
 |`--timeslot-overlay-container-border-right`|Timeslot indicators right border| _none_ |
 |`--timeslot-slider-thumb-background`|Slider thumb backgroud color| base64SVG |
+|`--timeslot-unit-border`|Timeslot Unit Border|1px solid #000|
+|`--timeslot-border-radius`|Timeslot Unit border radius|0|
+|`--timeslot-picker-scroll-left-btn-border-radius`|Left Scroll button border| 0 |
+|`--timeslot-picker-scroll-right-btn-border-radius`|Right Scroll button border| 0 |
+|`--timeslot-picker-scroll-btn-font`|font shorthand for Scroll Button|_none_|
 
 [npmjs.org][1]
 

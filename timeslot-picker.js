@@ -74,9 +74,12 @@ class TimeslotPicker extends PolymerElement {
           height: var(--timeslot-unit-height, 50px);
           width: calc( var(--timeslot-unit-width, 50px) / 2);
           top: 0;
+          font: var(--timeslot-picker-scroll-btn-font);
           box-sizing: border-box;
           line-height: var(--timeslot-unit-height, 50px);
-          border: 1px solid #999;
+          border: var(--timeslot-picker-scroll-btn-border, 1px solid #999);
+
+          border-radius: var(--timeslot-picker-scroll-btn-border-radius, 0);
           position: absolute;
           text-align: center;
           background: var(--timeslot-picker-scroll-btn-background, #fff);
@@ -89,20 +92,22 @@ class TimeslotPicker extends PolymerElement {
 
         .scroll-btn.left {
           left: 0;
+          border-radius: var(--timeslot-picker-scroll-left-btn-border-radius, 0);
         }
 
         .scroll-btn.right {
           right:0;
+          border-radius: var(--timeslot-picker-scroll-right-btn-border-radius, 0);
         }
       </style>
-      <div class="scroll-btn left" on-click='scrollLeft'>&lt;</div>
+      <div class="scroll-btn left" on-click='scrollLeft'>[[scrollLeftBtnText]]</div>
       <div id="tooltip" hidden$="[[!overlayActive]]" style="left: [[tooltipLeftOffset]]px">[[chosenEndTime]]</div>
       <div id="container">
         <div id="units">
         </div>
         <div id="overlaycontainer" hidden$='[[!overlayActive]]'></div>
       </div>
-      <div class="scroll-btn right" on-click='scrollRight'>&gt;</div>
+      <div class="scroll-btn right" on-click='scrollRight'>[[scrollRightBtnText]]</div>
 
     `;
   }
@@ -179,6 +184,14 @@ class TimeslotPicker extends PolymerElement {
       tooltipLeftOffset: {
         type: Number,
         computed: '_computeTooltipLeftOffset(rangeLeftPosition, chosenUnits)'
+      },
+      scrollLeftBtnText: {
+        type: String,
+        value: "<"
+      },
+      scrollRightBtnText: {
+        type: String,
+        value: ">"
       }
     };
 
@@ -370,7 +383,7 @@ class TimeslotPicker extends PolymerElement {
 
   _computeTooltipLeftOffset(pos, units) {
     const unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) || 50,
-    maxWidth = this.$.container.getBoundingClientRect().width;
+          maxWidth = this.$.container.getBoundingClientRect().width;
     let delta = pos + unitWidth*(parseInt(units-1)+0.5) + parseInt(units)*1;//0.5 is for left margin of the input range
     let scrollPos = delta>=0?delta:0;
     scrollPos = scrollPos<maxWidth?scrollPos:maxWidth;

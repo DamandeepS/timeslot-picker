@@ -15,8 +15,8 @@
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
         timeslot-picker {
-          --timeslot-unit-width: 60px;
-          --timeslot-unit-height: 60px;
+          --timeslot-unit-width: 95px;
+          --timeslot-unit-height: 95px;
           --timeslot-font-size: 12px;
         }
 
@@ -25,18 +25,21 @@
            --timeslot-picker-scroll-btn-background: #000;
            --timeslot-picker-scroll-btn-color: #fff;
            --timeslot-picker-scroll-btn-user-select: none;
-
+           --timeslot-picker-scroll-btn-border: none;
+           --timeslot-picker-scroll-left-btn-border-radius: 5px 0 0 5px;
+           --timeslot-picker-scroll-right-btn-border-radius:  0 5px 5px 0;
+           --timeslot-picker-scroll-btn-font: 100 30px monospace;
            --timeslot-overlay-container-border-left: 8px solid #000E;
            --timeslot-overlay-container-border-right: 8px solid #000E;
-           --timeslot-overlay-containerbackground: #b297ff;
-
-
-           --timeslot-unit-available-background: orange;
-
+           --timeslot-overlay-container-background: #b297ff;
+           --timeslot-unit-border: none;
+           --timeslot-border-radius: 5px;
+           --timeslot-unavailable-color: #eee;
+           --timeslot-available-color: #333;
+           --timeslot-available-bg: orange;
+           --timeslot-unavailable-bg: red;
+           --timeslot-slider-thumb-background: #000;
         }
-
-
-
       </style>
     </custom-style>
   </head>
@@ -46,11 +49,6 @@
       <demo-snippet>
         <template>
           <timeslot-picker>
-
-            <!-- timeslots units are being added dynamically, these are not required -->
-            <timeslot-unit slot="units" initial-time="3:00 PM" units="3"></timeslot-unit>
-            <timeslot-unit slot="units" initial-time="3:30 PM" units="3" booking-id></timeslot-unit>
-            <timeslot-unit slot="units" initial-time="4:00 PM" units="3" booking-id='3xxsc'></timeslot-unit>
           </timeslot-picker>
         </template>
       </demo-snippet>

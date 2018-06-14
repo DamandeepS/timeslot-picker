@@ -17,22 +17,25 @@ class TimeslotUnit extends PolymerElement {
           flex-direction: column;
           width: var(--timeslot-unit-width, 50px);
           max-width: var(--timeslot-unit-width, 50px);
+          color:var(--timeslot-available-color, #000);
           flex: 1 1;
           align-items: center;
           height: var(--timeslot-unit-height, 50px);
           background: var(--timeslot-available-bg, #fff);
-          margin: 0 1px 0 0;
+          margin-left: var(--timeslot-unit-margin, 1px);
+          margin-right: var(--timeslot-unit-margin, 1px);
           align-self: flex-start;
-          border: 1px solid #999;
+          border: var(--timeslot-unit-border,1px solid #999);
           box-sizing: border-box;
           cursor: pointer;
           border-radius: var(--timeslot-border-radius, 0);
+
           @apply --timeslot-unit-available;
         }
 
         :host([booking-id]:not([booking-id=''])) {
           background: var(--timeslot-unavailable-bg, #666);
-          color: #fff;
+          color:var(--timeslot-unavailable-color, #fff);
           cursor: default;
         }
 
@@ -148,7 +151,7 @@ class TimeslotUnit extends PolymerElement {
             leftOffset: this.offsetLeft,
             id: parseInt(this.id.split('slot_')[1])
           }
-        }))
+        }));
     })
   }
 }

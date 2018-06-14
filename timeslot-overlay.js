@@ -38,6 +38,8 @@ class TimeslotOverlay extends PolymerElement {
           align-items: center;
           flex-direction: column;
           box-sizing: border-box;
+          border-radius: var(--timeslot-border-radius, 0);
+          overflow: hidden;
           @apply --timeslot-overlay-container;
         }
 
@@ -48,6 +50,7 @@ class TimeslotOverlay extends PolymerElement {
           line-height: var(--timeslot-unit-height, 50px);
           width: var(--timeslot-unit-width, 50px);
           font-size: var(--timeslot-font-size, 10px);
+          margin: 0 7px;
           @apply --timeslot-overlay-time-indicators;
         }
 
@@ -95,6 +98,8 @@ class TimeslotOverlay extends PolymerElement {
 
         #range::-webkit-slider-runnable-track {
           width: 100%;
+          max-width: calc(100% - 12px);
+          margin: 0 auto;
           height: 100%;
           cursor: pointer;
           animate: 0.2s;
@@ -104,6 +109,8 @@ class TimeslotOverlay extends PolymerElement {
         }
          #range::-ms-track {
           width: 100%;
+          max-width: calc(100% - 12px);
+          margin: 0 auto;
           height: 100%;
           cursor: pointer;
           animate: 0.2s;
@@ -114,6 +121,8 @@ class TimeslotOverlay extends PolymerElement {
         #range::-moz-range-track {
           width: 100%;
           height: 100%;
+          max-width: calc(100% - 12px);
+          margin: 0 auto;
           cursor: pointer;
           animate: 0.2s;
           box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
@@ -135,14 +144,14 @@ class TimeslotOverlay extends PolymerElement {
         #range::-webkit-slider-thumb {
           box-shadow: 0px 0px 0 #00000000, 0px 0px 0 #0d0d0d00;
           border: 0px solid #000000;
-          height: calc( var(--timeslot-unit-height, 50px) - 10px);
-          width: calc( var(--timeslot-unit-width, 50px) - 10px);
+          height: calc( var(--timeslot-unit-height, 50px) - 24px);
+          width: calc( var(--timeslot-unit-width, 50px) - 24px);
           border-radius: 50%;
           background:var(--timeslot-slider-thumb-background, url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUyIDUyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MiA1MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiM2NjYiIGQ9Ik0yNiwwQzExLjY2NCwwLDAsMTEuNjYzLDAsMjZzMTEuNjY0LDI2LDI2LDI2czI2LTExLjY2MywyNi0yNlM0MC4zMzYsMCwyNiwweiBNMzguNSwyOEgyOHYxMWMwLDEuMTA0LTAuODk2LDItMiwycy0yLTAuODk2LTItMlYyOEgxMy41Yy0xLjEwNCwwLTItMC44OTYtMi0yczAuODk2LTIsMi0ySDI0VjE0YzAtMS4xMDQsMC44OTYtMiwyLTJzMiwwLjg5NiwyLDJ2MTBoMTAuNWMxLjEwNCwwLDIsMC44OTYsMiwyUzM5LjYwNCwyOCwzOC41LDI4eiIvPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==), #ffff);
           cursor: pointer;
           fill: var(--timeslot-unavailable-bg, #666);
           -webkit-appearance: none;
-          margin-top: 3px;
+          margin-top: 10px;
           position: relative;
           z-index: 2;
         }
@@ -158,14 +167,14 @@ class TimeslotOverlay extends PolymerElement {
          #range::-ms-thumb {
           box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
           border: 0px solid #000000;
-          height: calc( var(--timeslot-unit-height, 50px) - 10px);
-          width: calc( var(--timeslot-unit-width, 50px) - 10px);
+          height: calc( var(--timeslot-unit-height, 50px) - 24px);
+          width: calc( var(--timeslot-unit-width, 50px) - 24px);
           border-radius: 50%;
           background:var(--timeslot-slider-thumb-background, url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUyIDUyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MiA1MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiM2NjYiIGQ9Ik0yNiwwQzExLjY2NCwwLDAsMTEuNjYzLDAsMjZzMTEuNjY0LDI2LDI2LDI2czI2LTExLjY2MywyNi0yNlM0MC4zMzYsMCwyNiwweiBNMzguNSwyOEgyOHYxMWMwLDEuMTA0LTAuODk2LDItMiwycy0yLTAuODk2LTItMlYyOEgxMy41Yy0xLjEwNCwwLTItMC44OTYtMi0yczAuODk2LTIsMi0ySDI0VjE0YzAtMS4xMDQsMC44OTYtMiwyLTJzMiwwLjg5NiwyLDJ2MTBoMTAuNWMxLjEwNCwwLDIsMC44OTYsMiwyUzM5LjYwNCwyOCwzOC41LDI4eiIvPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==), #ffff);
           cursor: pointer;
           fill: var(--timeslot-unavailable-bg, #666);
           -webkit-appearance: none;
-          margin-top: 3px;
+          margin-top: 10px;
           position: relative;
           z-index: 2;
         }
@@ -173,14 +182,14 @@ class TimeslotOverlay extends PolymerElement {
         #range::-moz-range-thumb {
           box-shadow: 0px 0px 0px #00000000, 0px 0px 0px #0d0d0d00;
           border: 0px solid #000000;
-          height: calc( var(--timeslot-unit-height, 50px) - 10px);
-          width: calc( var(--timeslot-unit-width, 50px) - 10px);
+          height: calc( var(--timeslot-unit-height, 50px) - 24px);
+          width: calc( var(--timeslot-unit-width, 50px) - 24px);
           border-radius: 50%;
           background:var(--timeslot-slider-thumb-background, url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUyIDUyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MiA1MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiM2NjYiIGQ9Ik0yNiwwQzExLjY2NCwwLDAsMTEuNjYzLDAsMjZzMTEuNjY0LDI2LDI2LDI2czI2LTExLjY2MywyNi0yNlM0MC4zMzYsMCwyNiwweiBNMzguNSwyOEgyOHYxMWMwLDEuMTA0LTAuODk2LDItMiwycy0yLTAuODk2LTItMlYyOEgxMy41Yy0xLjEwNCwwLTItMC44OTYtMi0yczAuODk2LTIsMi0ySDI0VjE0YzAtMS4xMDQsMC44OTYtMiwyLTJzMiwwLjg5NiwyLDJ2MTBoMTAuNWMxLjEwNCwwLDIsMC44OTYsMiwyUzM5LjYwNCwyOCwzOC41LDI4eiIvPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==), #ffff);
           cursor: pointer;
           fill: var(--timeslot-unavailable-bg, #666);
           -webkit-appearance: none;
-          margin-top: 3px;
+          margin-top: 10px;
           position: relative;
           z-index: 2;
         }
@@ -298,8 +307,9 @@ class TimeslotOverlay extends PolymerElement {
   }
 
   _allowedUnitsChanged(newVal, oldVal) {
-    const unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) + 1 || 51;
-    this.$.container.style.width= ((newVal*unitWidth)-1) + 'px';
+    const unitMargin = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-margin')) * 2 || 2,
+          unitWidth = parseInt(getComputedStyle(this).getPropertyValue('--timeslot-unit-width')) + unitMargin || 52;
+    this.$.container.style.width= ((newVal*unitWidth)-unitMargin) + 'px';
     this._generateUnitsSlider(newVal);
   }
 
@@ -323,6 +333,7 @@ class TimeslotOverlay extends PolymerElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.$.container.scrollIntoViewIfNeeded();
     this.$.container.addEventListener('click', e=> {
       e.stopPropagation();
       e.preventDefault();
