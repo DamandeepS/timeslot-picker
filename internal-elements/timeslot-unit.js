@@ -33,6 +33,11 @@ class TimeslotUnit extends PolymerElement {
           @apply --timeslot-unit-available;
         }
 
+        :host(:focus) {
+          border: 3px solid red;
+          outline: none;
+        }
+
         :host([booking-id]:not([booking-id=''])) {
           background: var(--timeslot-unavailable-bg, #666);
           color:var(--timeslot-unavailable-color, #fff);
@@ -135,8 +140,10 @@ class TimeslotUnit extends PolymerElement {
   }
 
   _bookingChanged(newVal,oldVal) {
-    if(!newVal)
+    if(!newVal) {
       this.set('units', 1);
+      this.setAttribute('tabindex','0');
+    }
   }
 
   constructor() {
@@ -152,6 +159,11 @@ class TimeslotUnit extends PolymerElement {
             id: parseInt(this.id.split('slot_')[1])
           }
         }));
+    });
+    this.addEventListener('keyup',e=> {
+      if(e.keyCode==32||e.keyCode=='13') {
+        this.click();
+      }
     })
   }
 }

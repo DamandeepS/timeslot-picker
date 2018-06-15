@@ -101,14 +101,14 @@ class TimeslotPicker extends PolymerElement {
           border-radius: var(--timeslot-picker-scroll-right-btn-border-radius, 0);
         }
       </style>
-      <div class="scroll-btn left" on-click='_scrollLeft'>[[scrollLeftBtnText]]</div>
+      <div tabindex="0" class="scroll-btn left" on-click='_scrollLeft'>[[scrollLeftBtnText]]</div>
       <div id="tooltip" hidden$="[[!_overlayActive]]" style="left: [[_tooltipLeftOffset]]px">[[chosenEndTime]]</div>
       <div id="container">
         <div id="units">
         </div>
         <div id="overlaycontainer" hidden$='[[!_overlayActive]]'></div>
       </div>
-      <div class="scroll-btn right" on-click='_scrollRight'>[[scrollRightBtnText]]</div>
+      <div tabindex="0" class="scroll-btn right" on-click='_scrollRight'>[[scrollRightBtnText]]</div>
 
     `;
   }
@@ -193,6 +193,10 @@ class TimeslotPicker extends PolymerElement {
       scrollRightBtnText: {
         type: String,
         value: ">"
+      },
+      noCloseOnOverlayTap: {
+        type: Boolean,
+        value: false
       }
     };
 
@@ -314,10 +318,12 @@ class TimeslotPicker extends PolymerElement {
     overlay.leftOffset = e.detail.leftOffset;
     overlayContainer.appendChild(overlay);
     overlay.addEventListener('timeslot-pick-cancelled', e => {
-      this.set('_overlayActive', false);
-      this.set('chosenUnits', null);
-      this.set('chosenStartTime', null);
-      this.set('chosenEndTime', null);
+      if(!this.noCloseOnOverlayTap) {
+        this.set('_overlayActive', false);
+        this.set('chosenUnits', null);
+        this.set('chosenStartTime', null);
+        this.set('chosenEndTime', null);
+      }
     });
     overlay.addEventListener('chosen-units-changed', e => {
       this.set('chosenUnits', e.detail.value);
@@ -370,6 +376,13 @@ class TimeslotPicker extends PolymerElement {
       slot = e.detail.slot
       this.open(slot);
     })
+
+    this.addEventListener('keydown', e=> {
+      if(e.keyCode == 27) {
+        this.close();
+        e.preventDefault();
+      }
+    })
   }
 
 
@@ -393,14 +406,15 @@ class TimeslotPicker extends PolymerElement {
     if(slot) {
       this.$.container.scrollLeft = slot.offsetLeft-20;
       slot.click();
-      console.log(parseInt(slot.offsetLeft)-20, slot.offsetLeft)
     }
   }
 
   close() {
-    this.set('chosenEndTime', "")
-    this.$.overlaycontainer.innerHTML = "";
+    if(this._overlayActive)
+    this.set('chosenEndTime', "");
+    this.set('chosenStartTime', "");
     this.set('_overlayActive', false);
+    this.$.overlaycontainer.innerHTML = "";
   }
 }
 

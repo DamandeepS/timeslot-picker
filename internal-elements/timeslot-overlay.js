@@ -198,7 +198,7 @@ class TimeslotOverlay extends PolymerElement {
 
       <div id='container'>
         <div class="time-indicators" id="min-time" hidden$="[[hideMinTime]]">[[minTime]]</div>
-        <input id="range" min='1' step='1' type="range" max="[[_allowedUnits]]" value="1"></input>
+        <input autofocus id="range" min='1' step='1' type="range" max="[[_allowedUnits]]" value="1"></input>
         <div class="time-indicators" id="max-time" hidden$="[[hideMaxTime]]">[[maxTime]]</div>
       </div>
     `;
@@ -306,6 +306,7 @@ class TimeslotOverlay extends PolymerElement {
 
   _generateUnitsSlider(units) {
     const range = this.$.range;
+    range.focus();
     //range.style.width = 52*(units-1) + 'px';
   }
 
