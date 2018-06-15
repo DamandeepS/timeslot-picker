@@ -13,10 +13,11 @@ An overlay is shown as slider to select slots
 
 |Property|type|required|reflected _\*_|notify _\*_|description|
 |----|---|--|--|--|--|
-|bookings|Array|yes|false|false|Set of slots already booked |
-|chosenStartTime|String|no|true|true|Starting time slot value|
-|chosenEndTime|String|no|true|true|Ending time slot value|
-|chosenUnits|Number|no|true|true|Number of slots chosen|
+|`bookings`|Array|yes|false|false|Set of slots already booked |
+|`chosenStartTime`|String|no|true|true|Starting time slot value|
+|`chosenEndTime`|String|no|true|true|Ending time slot value|
+|`chosenUnits`|Number|no|true|true|Number of slots chosen|
+|`noCloseOnOverlayTap`|Boolean|no|false|disable the closing of slider on overlay tap|
 
 
 
