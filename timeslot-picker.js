@@ -1,7 +1,7 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 
-import './timeslot-unit.js';
-import './timeslot-overlay.js';
+import './internal-elements/timeslot-unit.js';
+import './internal-elements/timeslot-overlay.js';
 /**
  * `timeslot-picker`
  * A polymer element for choosing timeslots. Timeslots can be variable.
@@ -100,14 +100,14 @@ class TimeslotPicker extends PolymerElement {
           border-radius: var(--timeslot-picker-scroll-right-btn-border-radius, 0);
         }
       </style>
-      <div class="scroll-btn left" on-click='scrollLeft'>[[scrollLeftBtnText]]</div>
-      <div id="tooltip" hidden$="[[!overlayActive]]" style="left: [[tooltipLeftOffset]]px">[[chosenEndTime]]</div>
+      <div class="scroll-btn left" on-click='_scrollLeft'>[[scrollLeftBtnText]]</div>
+      <div id="tooltip" hidden$="[[!_overlayActive]]" style="left: [[_tooltipLeftOffset]]px">[[chosenEndTime]]</div>
       <div id="container">
         <div id="units">
         </div>
-        <div id="overlaycontainer" hidden$='[[!overlayActive]]'></div>
+        <div id="overlaycontainer" hidden$='[[!_overlayActive]]'></div>
       </div>
-      <div class="scroll-btn right" on-click='scrollRight'>[[scrollRightBtnText]]</div>
+      <div class="scroll-btn right" on-click='_scrollRight'>[[scrollRightBtnText]]</div>
 
     `;
   }
@@ -135,13 +135,13 @@ class TimeslotPicker extends PolymerElement {
           }
         ],
       notify: true,
-      observer: 'initializeTimeline'
+      observer: '_initializeTimeline'
       },
-      availableSlots: {
+      _availableSlots: {
         type: Array,
         value: []
       },
-      overlayActive: {
+      _overlayActive: {
         type: Boolean,
         value: false
       },
@@ -171,19 +171,19 @@ class TimeslotPicker extends PolymerElement {
         notify: true
       },
 
-      rangeContainerOffset: {
+      _rangeContainerOffset: {
         type: Number,
         value: 0
       },
 
-      rangeLeftPosition: {
+      _rangeLeftPosition: {
         type: Number,
-        computed: '_computeRangeLeftPosition(rangeContainerOffset)'
+        computed: '_computeRangeLeftPosition(_rangeContainerOffset)'
       },
 
-      tooltipLeftOffset: {
+      _tooltipLeftOffset: {
         type: Number,
-        computed: '_computeTooltipLeftOffset(rangeLeftPosition, chosenUnits)'
+        computed: '_computeTooltipLeftOffset(_rangeLeftPosition, chosenUnits)'
       },
       scrollLeftBtnText: {
         type: String,
@@ -198,7 +198,7 @@ class TimeslotPicker extends PolymerElement {
   }
 
 
-  initializeTimeline(newVal, oldVal) {
+  _initializeTimeline(newVal, oldVal) {
     const startTime='00:00'; //12:00 AM;
     while (this.$.units.firstChild) {
       this.$.units.removeChild(this.$.units.firstChild); //remove all children
@@ -241,7 +241,7 @@ class TimeslotPicker extends PolymerElement {
           i+=currentBooking.units-1;
         }
         if(aUnits>0) {
-        this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
+        this._availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
         availableSlotStartTime=null;
         }
       } else{
@@ -251,13 +251,13 @@ class TimeslotPicker extends PolymerElement {
       unit.addEventListener('timeslot-pick-start', this._addOverlayListener.bind(this));
 
       if((i==47) && availableSlotStartTime)
-        this.availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
+        this._availableSlots.push({availableSlotStartTime,availableSlotId,aUnits})
 
       this.$.units.appendChild(unit);
     }
 
     // Now that we know of available slots, lets assign each of units to slots
-    for(let a of this.get('availableSlots')) {
+    for(let a of this.get('_availableSlots')) {
       const index = parseInt(a['availableSlotId'].split('slot_')[1]),
       limit=index+a['aUnits'];
         for(let i = index;i<limit;i++ ) {
@@ -301,7 +301,7 @@ class TimeslotPicker extends PolymerElement {
 
   _addOverlayListener(e) {
 
-    this.set('overlayActive', true);
+    this.set('_overlayActive', true);
     this.set('chosenStartTime', e.detail.time);
     this.set('selectedSlot', e.detail.id)
     const overlayContainer = this.$.overlaycontainer;
@@ -313,7 +313,7 @@ class TimeslotPicker extends PolymerElement {
     overlay.leftOffset = e.detail.leftOffset;
     overlayContainer.appendChild(overlay);
     overlay.addEventListener('timeslot-pick-cancelled', e => {
-      this.set('overlayActive', false);
+      this.set('_overlayActive', false);
       this.set('chosenUnits', null);
       this.set('chosenStartTime', null);
       this.set('chosenEndTime', null);
@@ -325,13 +325,13 @@ class TimeslotPicker extends PolymerElement {
       this.set('chosenEndTime', e.detail.value);
     });
 
-    this.set('rangeContainerOffset', overlay.containerLeftoffset);
+    this.set('_rangeContainerOffset', overlay.containerLeftoffset);
   }
 
-  scrollLeft() {
+  _scrollLeft() {
     this.$.container.scrollBy({top: 0, left: -250, behavior: 'smooth'});
   }
-  scrollRight() {
+  _scrollRight() {
     this.$.container.scrollBy({top: 0, left: 250, behavior: 'smooth'});
   }
 
@@ -355,14 +355,14 @@ class TimeslotPicker extends PolymerElement {
   connectedCallback() {
     super.connectedCallback();
     this.$.container.addEventListener('scroll', e => {
-      this.rangeContainerOffset+=1;
-      this.rangeContainerOffset-=1;
+      this._rangeContainerOffset+=1;
+      this._rangeContainerOffset-=1;
     });
 
     this.addEventListener('close', e=> {
       this.set('chosenEndTime', "")
       this.$.overlaycontainer.innerHTML = "";
-      this.set('overlayActive', false);
+      this.set('_overlayActive', false);
     })
 
     this.addEventListener('open', e=> {
@@ -377,8 +377,8 @@ class TimeslotPicker extends PolymerElement {
 
 
 
-  _computeRangeLeftPosition(rangeContainerOffset){
-    return  rangeContainerOffset - this.$.container.scrollLeft;
+  _computeRangeLeftPosition(_rangeContainerOffset){
+    return  _rangeContainerOffset - this.$.container.scrollLeft;
   }
 
   _computeTooltipLeftOffset(pos, units) {

@@ -6,6 +6,8 @@ A polymer element for choosing timeslots. Timeslots can be variable.
 The element can be used to display a slider with timeslots at 30 minutes interval. User can select a slot (Max 6 units).
 An overlay is shown as slider to select slots
 
+### As Polymer 3 demos are not working right now, Please check the demo [here](https://timeslot-picker.stackblitz.io)
+
 ## Properties
 
 
