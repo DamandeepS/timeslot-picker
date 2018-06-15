@@ -6,7 +6,7 @@ A polymer element for choosing timeslots. Timeslots can be variable.
 The element can be used to display a slider with timeslots at 30 minutes interval. User can select a slot (Max 6 units).
 An overlay is shown as slider to select slots
 
-### As Polymer 3 demos are not working right now, Please check the demo [here](https://timeslot-picker.stackblitz.io)
+### As Polymer 3 demos are not working right now, Please check the demo [here](https://timeslot-picker.stackblitz.io).
 
 ## Properties
 
@@ -52,6 +52,11 @@ Property with `notify: true` fires a _property_-changed event when the value is 
 
 Reflected attributes updates the element with property attribute when the value changes.
     Example: *PropertyName* updates the attribute as `property-name="value"`
+
+## Methods
+|Method Name|Arguments|Description|
+|`open()`|`slotNumberToBeSelected`: _Number_ |Opens the slider on the mentioned slot|
+|`close()`|`undefined`|Closes the slider|
 
 ## Events
 

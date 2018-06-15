@@ -333,7 +333,7 @@ class TimeslotOverlay extends PolymerElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.$.container.scrollIntoViewIfNeeded();
+    this.$.container.scrollIntoView();
     this.$.container.addEventListener('click', e=> {
       e.stopPropagation();
       e.preventDefault();

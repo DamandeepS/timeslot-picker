@@ -19,6 +19,7 @@ class TimeslotPicker extends PolymerElement {
           width: 100%;
           white-space: nowrap;
           position: relative;
+          margin-top: 30px;
         }
 
         #container {
@@ -360,18 +361,14 @@ class TimeslotPicker extends PolymerElement {
     });
 
     this.addEventListener('close', e=> {
-      this.set('chosenEndTime', "")
-      this.$.overlaycontainer.innerHTML = "";
-      this.set('_overlayActive', false);
+      this.close();
     })
 
     this.addEventListener('open', e=> {
-      this.dispatchEvent(new CustomEvent('close', {}))
       let slot;
       if(e.detail)
       slot = e.detail.slot
-      if(slot)
-        this.shadowRoot.querySelector('#slot_' + slot).click()
+      this.open(slot);
     })
   }
 
@@ -388,6 +385,18 @@ class TimeslotPicker extends PolymerElement {
     let scrollPos = delta>=0?delta:0;
     scrollPos = scrollPos<maxWidth?scrollPos:maxWidth;
     return scrollPos;
+  }
+
+  open(slotNumberToBeSelected) {
+    this.close();
+    if(slotNumberToBeSelected&&this.shadowRoot.querySelector('#slot_' + slotNumberToBeSelected))
+      this.shadowRoot.querySelector('#slot_' + slotNumberToBeSelected).click()
+  }
+
+  close() {
+    this.set('chosenEndTime', "")
+    this.$.overlaycontainer.innerHTML = "";
+    this.set('_overlayActive', false);
   }
 }
 
