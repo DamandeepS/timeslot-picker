@@ -98,6 +98,7 @@ document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', 
 |`--timeslot-picker-scroll-left-btn-border-radius`|Left Scroll button border| 0 |
 |`--timeslot-picker-scroll-right-btn-border-radius`|Right Scroll button border| 0 |
 |`--timeslot-picker-scroll-btn-font`|font shorthand for Scroll Button|_none_|
+|` --timeslot-overlay-indicators-color`|Text color for text in overlay slider|#000|
 
 [npmjs.org][1]
 

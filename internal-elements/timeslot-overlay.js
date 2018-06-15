@@ -47,6 +47,7 @@ class TimeslotOverlay extends PolymerElement {
           height: var(--timeslot-unit-height, 50px);
           position: absolute;
           text-align: center;
+          color: var(--timeslot-overlay-indicators-color, #000);
           line-height: var(--timeslot-unit-height, 50px);
           width: var(--timeslot-unit-width, 50px);
           font-size: var(--timeslot-font-size, 10px);
@@ -138,7 +139,7 @@ class TimeslotOverlay extends PolymerElement {
           top: calc( (var(--timeslot-unit-height, 50px) / 2) - 0.5px);
           position: absolute;
           bottom: calc( (var(--timeslot-unit-height, 50px) / 2) - 0.5px);
-          background: var(--timeslot-unavailable-bg, #666);
+          background: var(--timeslot-overlay-indicators-color, #666);
         }
 
         #range::-webkit-slider-thumb {
@@ -193,15 +194,6 @@ class TimeslotOverlay extends PolymerElement {
           position: relative;
           z-index: 2;
         }
-        input[type=range]:focus::-webkit-slider-runnable-track {
-          background: #ac51b5;
-        }
-        input[type=range]::-ms-track {
-          background: #ac51b5;
-        }
-        input[type=range]::-moz-range-track {
-          //background: #ac51b5;
-        }
       </style>
 
       <div id='container'>
@@ -213,7 +205,6 @@ class TimeslotOverlay extends PolymerElement {
   }
   static get properties() {
     return {
-
       availableUnits: {
         type: Number,
         value: 1
@@ -333,19 +324,18 @@ class TimeslotOverlay extends PolymerElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.$.container.scrollIntoView();
     this.$.container.addEventListener('click', e=> {
       e.stopPropagation();
       e.preventDefault();
-    })
+    });
     this.$.container.addEventListener('touchstart', e=> {
       e.stopPropagation();
-    }, true)
+    }, true);
 
     this.$.range.addEventListener('input', e=> {
       this.chosenUnits = this.$.range.value;
-    })
-      this.set('containerLeftoffset', parseInt(this.$.container.offsetLeft));
+    });
+    this.set('containerLeftoffset', parseInt(this.$.container.offsetLeft));
   }
 
   _computeTime(time, units) {

@@ -389,8 +389,12 @@ class TimeslotPicker extends PolymerElement {
 
   open(slotNumberToBeSelected) {
     this.close();
-    if(slotNumberToBeSelected&&this.shadowRoot.querySelector('#slot_' + slotNumberToBeSelected))
-      this.shadowRoot.querySelector('#slot_' + slotNumberToBeSelected).click()
+    const slot = this.shadowRoot.querySelector('#slot_' + slotNumberToBeSelected);
+    if(slot) {
+      this.$.container.scrollLeft = slot.offsetLeft-20;
+      slot.click();
+      console.log(parseInt(slot.offsetLeft)-20, slot.offsetLeft)
+    }
   }
 
   close() {
