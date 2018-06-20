@@ -14,7 +14,7 @@ class TimeslotUnit extends PolymerElement {
       <style>
         :host {
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
           width: var(--timeslot-unit-width, 50px);
           max-width: var(--timeslot-unit-width, 50px);
           color:var(--timeslot-available-color, #000);
@@ -46,8 +46,6 @@ class TimeslotUnit extends PolymerElement {
 
         .container {
           text-align: center;
-          display: flex;
-          flex-direction: row;
           flex: 1 1;
           flex-grow: inherit;
           align-items: center;
@@ -55,13 +53,38 @@ class TimeslotUnit extends PolymerElement {
         }
 
         .container p.time {
+          display: flex;
+          flex-direction: row;
+        }
+
+        .container p.time, .container p.time span{
           font-size: var(--timeslot-font-size, 10px);
           word-wrap: break-word;
           word-break: break-all;
+          flex-grow: 1;
+        }
+
+        .container p.time .dash {
+          flex-grow: 5;
+          height: 1px;
+          background: var(--timeslot-unavailable-color, #fff);
+          align-self: center;
+        }
+
+        .container p.time[hidden] {
+          display: none;
+        }
+
+        .container[single-line] p.time {
+          flex-direction: column;
+        }
+        .container[single-line] p.time .dash {
+          width: 20px;
+          margin: 10px;
         }
       </style>
-      <div class='container'>
-        <p class='time' hidden$="[[bookingId]]" >[[initialTime]] </p><p class='time' hidden$="[[!bookingId]]" hidden$="[[bookingId=='']]"> [[initialTime]] <br hidden$="[[singleLineView]]"> - <br hidden$="[[singleLineView]]">[[computedTime]]</p>
+      <div class='container' single-line$="[[!singleLineView]]">
+        <p class='time' hidden$="[[bookingId]]" ><span>[[initialTime]]</span> </p><p class='time' hidden$="[[!bookingId]]" hidden$="[[bookingId=='']]"> <span>[[initialTime]]</span>  <span class="dash"></span> <span>[[computedTime]]</span></p>
       </div>
     `;
   }
@@ -96,7 +119,8 @@ class TimeslotUnit extends PolymerElement {
   _computeTime(initialTime, units) {
     var hoursTime = this._convert12to24Hours(initialTime.toUpperCase()),
     newTimein24Hours =  this._addMinutes(hoursTime, (units * 30).toString());
-    return this._convert24to12Hours(newTimein24Hours);
+    const nextDay = parseInt(hoursTime.split(':').join(''))>=parseInt(newTimein24Hours.split(':').join(''));
+    return this._convert24to12Hours(newTimein24Hours) + (nextDay?" (Next Day)": "");
   }
 
   _convert12to24Hours(time) {
