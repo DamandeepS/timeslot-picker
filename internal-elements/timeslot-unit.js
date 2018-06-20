@@ -65,7 +65,7 @@ class TimeslotUnit extends PolymerElement {
         }
 
         .container p.time .dash {
-          flex-grow: 5;
+          flex-grow: 100;
           height: 1px;
           background: var(--timeslot-unavailable-color, #fff);
           align-self: center;
