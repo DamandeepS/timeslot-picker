@@ -61,7 +61,7 @@ class TimeslotUnit extends PolymerElement {
           font-size: var(--timeslot-font-size, 10px);
           word-wrap: break-word;
           word-break: break-all;
-          margin: 10px;
+          margin: var(--timeslot-unit-text-margin, 2px);
           flex-grow: 1;
         }
 
@@ -81,7 +81,7 @@ class TimeslotUnit extends PolymerElement {
         }
         .container[single-line] p.time .dash {
           width: 20px;
-          margin: 10px;
+          margin: var(--timeslot-unit-text-margin, 2px);
         }
       </style>
       <div class='container' single-line$="[[!singleLineView]]">

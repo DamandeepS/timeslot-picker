@@ -101,6 +101,7 @@ document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', 
 |`--timeslot-picker-scroll-right-btn-border-radius`|Right Scroll button border| 0 |
 |`--timeslot-picker-scroll-btn-font`|font shorthand for Scroll Button|_none_|
 |` --timeslot-overlay-indicators-color`|Text color for text in overlay slider|#000|
+|` --timeslot-unit-text-margin`|Margin for Text being displayed in a timeslot|2px|
 
 [npmjs.org][1]
 
