@@ -56,6 +56,7 @@ Reflected attributes updates the element with property attribute when the value 
 
 ## Methods
 |Method Name|Arguments|Description|
+|--|--|--|
 |`open()`|`slotNumberToBeSelected`: _Number_ |Opens the slider on the mentioned slot|
 |`close()`|`undefined`|Closes the slider|
 
