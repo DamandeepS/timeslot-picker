@@ -264,7 +264,7 @@ class TimeslotPicker extends PolymerElement {
     // Now that we know of available slots, lets assign each of units to slots
     for(let a of this.get('_availableSlots')) {
       const index = parseInt(a['availableSlotId'].split('slot_')[1]),
-      limit=((index + a['aUnits'])>=48)?47:(index + a['aUnits']);
+      limit=((index + a['aUnits'])>=48)?48:(index + a['aUnits']);
         for(let i = index;i<limit;i++ ) {
           if(this.$.units.querySelector('#slot_' + i))
           this.$.units.querySelector('#slot_' + i).availableUnits = limit - i;
