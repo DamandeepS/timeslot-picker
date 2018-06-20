@@ -255,6 +255,10 @@ class TimeslotOverlay extends PolymerElement {
       },
       hideMaxTime: {//This is needed because z-index doesn't work with the slider thumb of input range !HACK
         type: Boolean
+      },
+      maxlimit: {
+        type: Number,
+        value: 6
       }
     };
 
@@ -294,7 +298,7 @@ class TimeslotOverlay extends PolymerElement {
   }
 
   _computedAllowedUnits(aUnits) {
-    return (aUnits>6)?6:aUnits;
+    return (aUnits>this.maxLimit)?this.maxLimit:aUnits;
   }
 
   _allowedUnitsChanged(newVal, oldVal) {

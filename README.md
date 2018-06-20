@@ -18,6 +18,7 @@ An overlay is shown as slider to select slots
 |`chosenEndTime`|String|no|true|true|Ending time slot value|
 |`chosenUnits`|Number|no|true|true|Number of slots chosen|
 |`noCloseOnOverlayTap`|Boolean|no|false|disable the closing of slider on overlay tap|
+|`maxLimit`|Number|no|false|Maximum number of slots allowed to book. `default value = 6`|
 
 
 

@@ -197,6 +197,10 @@ class TimeslotPicker extends PolymerElement {
       noCloseOnOverlayTap: {
         type: Boolean,
         value: false
+      },
+      maxLimit: {
+        type: Number,
+        value: "6"
       }
     };
 
@@ -313,6 +317,7 @@ class TimeslotPicker extends PolymerElement {
     const overlayContainer = this.$.overlaycontainer;
     overlayContainer.innerHTML = '';
     const overlay = document.createElement('timeslot-overlay');
+    overlay.set('maxLimit', this.maxLimit);
     overlay.availableUnits=e.detail.aUnits;
     overlay.initialTime = e.detail.time;
     overlay.id = 'overlay';
