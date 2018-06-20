@@ -61,6 +61,7 @@ class TimeslotUnit extends PolymerElement {
           font-size: var(--timeslot-font-size, 10px);
           word-wrap: break-word;
           word-break: break-all;
+          margin: 10px;
           flex-grow: 1;
         }
 
