@@ -283,6 +283,10 @@ class TimeslotPicker extends PolymerElement {
           this.$.units.querySelector('#slot_' + i).availableUnits = limit - i;
       }
     }
+    setTimeout(()=> {
+      this.shadowRoot.querySelector('timeslot-unit:not([disabled])').scrollIntoView(true);
+    },200)
+
   }
 
   _convert12to24Hours(time) {

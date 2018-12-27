@@ -211,7 +211,7 @@ class TimeslotUnit extends PolymerElement {
     var v = new Date();
     const d = (v.getMonth() + 1) + "-" + v.getDate() + "-" + v.getFullYear();
     console.log(new Date(d + " " + t.split(" (Next Day)")[0]) < new Date())
-    const r = (new Date(d + " " + t.split(" (Next Day)")[0]) < new Date());
+    const r = (t.indexOf(" (Next Day)")==-1) && (new Date(d + " " + t.split(" (Next Day)")[0]) < new Date());
     if(r)
       this.setAttribute('tabindex','-1');
     else
