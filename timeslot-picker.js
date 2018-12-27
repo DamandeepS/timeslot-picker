@@ -236,6 +236,15 @@ class TimeslotPicker extends PolymerElement {
         aUnits=0;
       }
 
+      unit.addEventListener('unavailable-slot-selected', e=> {
+
+          this.dispatchEvent(new CustomEvent('unavailable-slot-selected', {
+            detail: {
+              time: e.detail.time
+            }
+          }));
+      })
+
       if(bookedSlots.indexOf(time)>-1) {
         const currentBooking = ((o,t) => {
           for(const b of o) {

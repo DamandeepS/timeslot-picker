@@ -33,7 +33,11 @@ class TimeslotUnit extends PolymerElement {
           @apply --timeslot-unit-available;
         }
 
-        :host(:focus) {
+        :host([disabled]) {
+          opacity: 0.7;
+        }
+
+        :host(:focus:not([disabled])) {
           border: 3px solid red;
           outline: none;
         }
@@ -97,6 +101,11 @@ class TimeslotUnit extends PolymerElement {
         notify: true,
         observer: '_unitsChanged'
       },
+      disabled: {
+        type: Boolean,
+        computed: '__computeIfDisabled(computedTime)',
+        reflectToAttribute: !0
+      },
       initialTime: {
         type: String
       },
@@ -121,6 +130,7 @@ class TimeslotUnit extends PolymerElement {
     var hoursTime = this._convert12to24Hours(initialTime.toUpperCase()),
     newTimein24Hours =  this._addMinutes(hoursTime, (units * 30).toString());
     const nextDay = parseInt(hoursTime.split(':').join(''))>=parseInt(newTimein24Hours.split(':').join(''));
+
     return this._convert24to12Hours(newTimein24Hours) + (nextDay?" (Next Day)": "");
   }
 
@@ -167,7 +177,6 @@ class TimeslotUnit extends PolymerElement {
   _bookingChanged(newVal,oldVal) {
     if(!newVal) {
       this.set('units', 1);
-      this.setAttribute('tabindex','0');
     }
   }
 
@@ -175,7 +184,7 @@ class TimeslotUnit extends PolymerElement {
     super();
 
     this.addEventListener('click', e => {
-      if(!this.bookingId)
+      if(!this.disabled && !this.bookingId)
         this.dispatchEvent(new CustomEvent('timeslot-pick-start', {
           detail: {
             time: this.initialTime,
@@ -184,12 +193,30 @@ class TimeslotUnit extends PolymerElement {
             id: parseInt(this.id.split('slot_')[1])
           }
         }));
+      else
+        this.dispatchEvent(new CustomEvent('unavailable-slot-selected', {
+          detail: {
+            time: this.initialTime,
+            aUnits: this.availableUnits
+          }
+        }));
     });
     this.addEventListener('keyup',e=> {
       if(e.keyCode==32||e.keyCode=='13') {
         this.click();
       }
     })
+  }
+  __computeIfDisabled(t) {
+    var v = new Date();
+    const d = (v.getMonth() + 1) + "-" + v.getDate() + "-" + v.getFullYear();
+    console.log(new Date(d + " " + t.split(" (Next Day)")[0]) < new Date())
+    const r = (new Date(d + " " + t.split(" (Next Day)")[0]) < new Date());
+    if(r)
+      this.setAttribute('tabindex','-1');
+    else
+      this.setAttribute('tabindex','0');
+    return r;
   }
 }
 
