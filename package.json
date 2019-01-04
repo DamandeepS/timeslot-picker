@@ -2,7 +2,7 @@
   "name": "timeslot-picker",
   "description": "A polymer element for choosing timeslots. Timeslots can be variable.",
   "main": "timeslot-picker.js",
-  "version": "0.9.23",
+  "version": "0.9.24",
   "dependencies": {
     "@polymer/polymer": "^3.1.0"
   },
