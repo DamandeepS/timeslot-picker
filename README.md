@@ -85,6 +85,7 @@ document.querySelector('timeslot-picker').dispatchEvent(new CustomEvent('open', 
 |`--timeslot-unit-height`|Timeslot unit height|50px|
 |`--timeslot-unit-width`|Timeslot unit width|50px|
 |`--timeslot-available-bg`|Timeslot Available background color| #fff|
+|`--timeslot-disabled-bg`|Timeslot Available background color| #fff|
 |`--timeslot-unavailable-bg`|Timeslot Unavailable background color| #666|
 |`--timeslot-font-size`|Timeslot indicators and slots text size| 10px|
 |`--timeslot-picker-tooltip-background`|Tooltip bubble background color| #000|

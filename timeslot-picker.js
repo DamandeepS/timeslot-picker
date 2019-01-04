@@ -240,7 +240,7 @@ class TimeslotPicker extends PolymerElement {
 
           this.dispatchEvent(new CustomEvent('unavailable-slot-selected', {
             detail: {
-              time: e.detail.time
+              ...e.detail
             }
           }));
       })

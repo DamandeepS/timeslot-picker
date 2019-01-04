@@ -34,7 +34,7 @@ class TimeslotUnit extends PolymerElement {
         }
 
         :host([disabled]) {
-          opacity: 0.7;
+        background: var(--timeslot-disabled-bg, #acc);
         }
 
         :host(:focus:not([disabled])) {
@@ -193,11 +193,12 @@ class TimeslotUnit extends PolymerElement {
             id: parseInt(this.id.split('slot_')[1])
           }
         }));
-      else
+      else if(this.bookingId)
         this.dispatchEvent(new CustomEvent('unavailable-slot-selected', {
           detail: {
             time: this.initialTime,
-            aUnits: this.availableUnits
+            aUnits: this.availableUnits,
+            bookingId: this.bookingId
           }
         }));
     });
@@ -210,7 +211,6 @@ class TimeslotUnit extends PolymerElement {
   __computeIfDisabled(t) {
     var v = new Date();
     const d = (v.getMonth() + 1) + "-" + v.getDate() + "-" + v.getFullYear();
-    console.log(new Date(d + " " + t.split(" (Next Day)")[0]) < new Date())
     const r = (t.indexOf(" (Next Day)")==-1) && (new Date(d + " " + t.split(" (Next Day)")[0]) < new Date());
     if(r)
       this.setAttribute('tabindex','-1');
